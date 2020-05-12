@@ -9,11 +9,9 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import cs544.group1.project.types.UserRoles;
 
 @Entity
 public class UserRole {
@@ -26,7 +24,7 @@ public class UserRole {
 	private List<User> user;
 	
 	@Enumerated(EnumType.STRING)
-	private UserRoles role;
+	private UserRoles userRoles;
 	
 	@Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
@@ -61,13 +59,13 @@ public class UserRole {
 	}
 
 
-	public UserRoles getRole() {
-		return role;
+	public UserRoles getUserRoles() {
+		return userRoles;
 	}
 
 
-	public void setRole(UserRoles role) {
-		this.role = role;
+	public void setUserRoles(UserRoles userRoles) {
+		this.userRoles = userRoles;
 	}
 
 

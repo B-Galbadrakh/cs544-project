@@ -1,4 +1,4 @@
-package cs544.group1.project.types;
+package cs544.group1.project.domain;
 
 public enum UserRoles {
 	
