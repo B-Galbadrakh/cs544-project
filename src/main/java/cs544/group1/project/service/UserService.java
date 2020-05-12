@@ -1,25 +1,16 @@
 package cs544.group1.project.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import cs544.group1.project.domain.UserRole;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import cs544.group1.project.dto.UserDTO;
+import cs544.group1.project.util.CustomError;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
 
-import cs544.group1.project.domain.User;
+import java.util.List;
 
 public interface UserService extends UserDetailsService{
-    User save(User user);
-    List<User> findAll();
-    User update(int userId, String password);
+
+    User save(UserDTO user) throws CustomError;
+    List<UserDTO> findAll();
+    UserDTO update(int userId, String password);
     void delete(int userId);
-    User findById(int userId);
+    UserDTO findById(int userId);
 }

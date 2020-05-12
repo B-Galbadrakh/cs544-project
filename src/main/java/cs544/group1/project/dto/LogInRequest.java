@@ -1,10 +1,13 @@
-package cs544.group1.project.contract;
+package cs544.group1.project.dto;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 
 public class LogInRequest implements Serializable {
 
+    @NotBlank(message = "Username is mandatory")
     private String username;
+    @NotBlank(message = "Password is mandatory")
     private String password;
 
     public LogInRequest() {
