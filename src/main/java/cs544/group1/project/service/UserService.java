@@ -1,5 +1,6 @@
 package cs544.group1.project.service;
 
+import cs544.group1.project.domain.User;
 import cs544.group1.project.dto.UserDTO;
 import cs544.group1.project.util.CustomError;
 import org.springframework.security.core.userdetails.UserDetailsService;
