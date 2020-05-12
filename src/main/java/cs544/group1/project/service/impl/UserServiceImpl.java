@@ -67,15 +67,16 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByEmail(email).get(0);
 	}
 
-	public void save(UserDTO userDTO) throws CustomError {
+	public User save(UserDTO userDTO) throws CustomError {
 		List<User> tempUser = userRepository.findByEmail(userDTO.getEmail());
 		if(tempUser != null && tempUser.size() > 0)
 		{
 			throw new CustomError(400,"Email already used by another user",null);
 		}
 		User user = objectMapper.getUserEntityFromDTO(userDTO);
+
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		userRepository.save(user);
+		return userRepository.save(user);
 	}
 
 	public List<UserDTO> findAll() {

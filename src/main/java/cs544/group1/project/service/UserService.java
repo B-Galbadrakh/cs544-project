@@ -7,7 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.List;
 
 public interface UserService extends UserDetailsService{
-    void save(UserDTO user) throws CustomError;
+
+    User save(UserDTO user) throws CustomError;
     List<UserDTO> findAll();
     UserDTO update(int userId, String password);
     void delete(int userId);
