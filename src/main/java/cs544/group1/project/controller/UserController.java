@@ -38,8 +38,8 @@ public class UserController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping()
-    public void createUser(@RequestBody User user) {
-        userService.save(user);
+    public User createUser(@RequestBody User user) {
+        return userService.save(user);
     }
 
     @PostMapping("/login")
