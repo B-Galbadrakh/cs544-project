@@ -27,12 +27,9 @@ public class UserTestCases {
 	@Autowired
 	private UserService userService;
 	
-
-	@BeforeAll
-	public static void initTestCases() {
-//		System.out.println("Before function");
-//		useCase = new UserUseCases();
-	}
+	@Autowired
+	private JavaMailSender javaMailSender;
+	
 
 	@Test
 	void contextLoads() {
@@ -43,8 +40,7 @@ public class UserTestCases {
 		//assertNotNull(userService.save(user));
 	}
 	
-	@Autowired
-	private JavaMailSender javaMailSender;
+	
 	@Test
 	void mailSender() {
 	   User user = new User();
