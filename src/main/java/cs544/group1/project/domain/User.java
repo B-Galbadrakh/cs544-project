@@ -1,8 +1,10 @@
 package cs544.group1.project.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class User {
@@ -34,14 +38,15 @@ public class User {
     private Date updatedDate;
     
     
-    @ManyToMany
-    List<UserRole> role;
+    @ManyToMany(cascade=CascadeType.ALL)
+    @JsonIgnoreProperties(value = "user")
+    List<UserRole> role = new ArrayList<>();
     
     @OneToMany(mappedBy = "user")
-    private List<Appointment> appointments;
+    private List<Appointment> appointments = new ArrayList<>();
     
     @OneToMany(mappedBy = "consumer")
-    private List<Reservation> reservations;
+    private List<Reservation> reservations = new ArrayList<>();
     
     
 //    private Reservation reservation;
@@ -91,9 +96,6 @@ public class User {
 		this.updatedDate = updatedDate;
 	}
 
-	
-    
-
     public int getId() {
         return id;
     }
@@ -117,5 +119,31 @@ public class User {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+	public List<UserRole> getRole() {
+		return role;
+	}
+
+	public void setRole(List<UserRole> role) {
+		this.role = role;
+	}
+
+	public List<Appointment> getAppointments() {
+		return appointments;
+	}
+
+	public void setAppointments(List<Appointment> appointments) {
+		this.appointments = appointments;
+	}
+
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+    
+    
 
 }

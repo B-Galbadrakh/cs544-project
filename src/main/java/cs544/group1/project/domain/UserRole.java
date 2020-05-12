@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import cs544.group1.project.types.UserRoles;
 
 @Entity
@@ -23,6 +25,7 @@ public class UserRole {
 	private int id;
 	
 	@ManyToMany(mappedBy = "role")
+	@JsonIgnoreProperties(value = "role")
 	private List<User> user;
 	
 	@Enumerated(EnumType.STRING)
