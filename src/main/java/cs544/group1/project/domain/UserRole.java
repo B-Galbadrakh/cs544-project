@@ -24,7 +24,7 @@ public class UserRole {
 	private List<User> user;
 	
 	@Enumerated(EnumType.STRING)
-	private Role role;
+	private UserRoles userRoles;
 	
 	@Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
@@ -59,13 +59,13 @@ public class UserRole {
 	}
 
 
-	public Role getRole() {
-		return role;
+	public UserRoles getUserRoles() {
+		return userRoles;
 	}
 
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setUserRoles(UserRoles userRoles) {
+		this.userRoles = userRoles;
 	}
 
 

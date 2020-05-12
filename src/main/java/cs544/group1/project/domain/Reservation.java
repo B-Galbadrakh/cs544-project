@@ -1,7 +1,6 @@
 package cs544.group1.project.domain;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -21,7 +20,7 @@ public class Reservation {
 	private int id;
 	
 	@Enumerated(EnumType.STRING)
-	private Status status;
+	private ReservationStatus reservationStatus;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date reservationDate;
@@ -59,14 +58,14 @@ public class Reservation {
 
 
 
-	public Status getStatus() {
-		return status;
+	public ReservationStatus getReservationStatus() {
+		return reservationStatus;
 	}
 
 
 
-	public void setStatus(Status status) {
-		this.status = status;
+	public void setReservationStatus(ReservationStatus reservationStatus) {
+		this.reservationStatus = reservationStatus;
 	}
 
 
