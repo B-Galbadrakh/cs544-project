@@ -11,6 +11,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 @Entity
 public class Reservation {
@@ -29,9 +32,11 @@ public class Reservation {
 	private User consumer;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
     private Date createdDate;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     private Date updatedDate;
     
     @ManyToOne
@@ -40,8 +45,6 @@ public class Reservation {
     
     
     public Reservation() {
-    	this.createdDate = new Date();
-		this.updatedDate = new Date();
     }
 
 
