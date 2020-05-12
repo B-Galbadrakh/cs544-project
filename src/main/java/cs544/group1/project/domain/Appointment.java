@@ -5,10 +5,12 @@ import java.util.List;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
+import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -36,32 +38,20 @@ public class Appointment {
     private Date updatedDate;
     
     @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
     
-    @OneToMany
+    @OneToMany(mappedBy="appointment")
     private List<Reservation> reservations;
     
-    
-	/*
-	 * @AttributeOverrides({
-	 * 
-	 * @AttributeOverride(name="createdDate",
-	 * column=@Column(name="LOC_CREATEDDATE")),
-	 * 
-	 * @AttributeOverride(name="updatedDate",
-	 * column=@Column(name="LOC_UPDATEDDATE")) })
-	 * 
-	 * @Embedded private Location location;
-	 */
-    
-    
+    @ManyToOne(cascade=CascadeType.ALL)  
+    @JoinColumn(name="location_id")
+	private Location location;
     
     public Appointment() {
     	this.createdDate = new Date();
 		this.updatedDate = new Date();
     }
-
-
 
 	public int getId() {
 		return id;
@@ -131,6 +121,16 @@ public class Appointment {
 
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	};
+	
+	
 
 }

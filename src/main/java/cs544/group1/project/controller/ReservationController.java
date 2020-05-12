@@ -2,6 +2,7 @@ package cs544.group1.project.controller;
 
 import cs544.group1.project.domain.Reservation;
 import cs544.group1.project.service.ReservationService;
+import cs544.group1.project.service.response.ReservationResponse;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/reservation")
+@RequestMapping("/reservations")
 public class ReservationController {
 
     @Autowired
@@ -27,13 +28,13 @@ public class ReservationController {
     }
     
     @GetMapping()
-    public List<Reservation> getReservations(){
+    public List<ReservationResponse> getReservations(){
     	return reservationService.findAll();
     }
     
     @GetMapping("/{reservationid}")
-    public Reservation getReservationById(@PathVariable int Reservationid) {
-    	return reservationService.findById(Reservationid);
+    public ReservationResponse getReservationById(@PathVariable int reservationid) {
+    	return reservationService.findReservationResponseById(reservationid);
     }
     
     @PostMapping("/{reservationid}")

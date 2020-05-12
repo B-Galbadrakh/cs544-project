@@ -2,6 +2,11 @@ package cs544.group1.project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestTemplate;
+
+import ma.glasnost.orika.MapperFactory;
+import ma.glasnost.orika.impl.DefaultMapperFactory;
 
 @SpringBootApplication
 //comment
@@ -11,5 +16,4 @@ public class ProjectApplication {
 
         SpringApplication.run(ProjectApplication.class, args);
     }
-
 }

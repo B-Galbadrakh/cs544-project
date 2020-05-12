@@ -23,9 +23,11 @@ public class UserRole {
 	@GeneratedValue
 	private int id;
 	
-	@ManyToMany(mappedBy = "role")
-	@JsonIgnoreProperties(value = "role")
-	private List<User> user;
+	/*
+	 * @ManyToMany(mappedBy = "role")
+	 * 
+	 * @JsonIgnoreProperties(value = "role") private List<User> user;
+	 */
 	
 	@Enumerated(EnumType.STRING)
 	private UserRoles role;
@@ -53,14 +55,12 @@ public class UserRole {
 	}
 
 
-	public List<User> getUser() {
-		return user;
-	}
-
-
-	public void setUser(List<User> user) {
-		this.user = user;
-	}
+	/*
+	 * public List<User> getUser() { return user; }
+	 * 
+	 * 
+	 * public void setUser(List<User> user) { this.user = user; }
+	 */
 
 
 	public UserRoles getRole() {

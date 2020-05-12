@@ -3,6 +3,7 @@ package cs544.group1.project.controller;
 import cs544.group1.project.domain.User;
 import cs544.group1.project.repo.UserRepo;
 import cs544.group1.project.service.UserService;
+import cs544.group1.project.service.response.UserResponse;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
@@ -30,18 +31,18 @@ public class UserController {
     }
     
     @GetMapping()
-    public List<User> getUsers(){
+    public List<UserResponse> getUsers(){
     	return userService.findAll();
     }
     
     @GetMapping("/{userid}")
-    public User getUserById(@PathVariable int userid) {
-    	return userService.findById(userid);
+    public UserResponse getUserById(@PathVariable int userid) {
+    	return userService.findUserResponseById(userid);
     }
     
     @PostMapping("/{userid}")
-    public User updateById(@PathVariable int userid, @RequestBody Map<String, String>password) {
-    	return userService.update(userid, password.get("password"));
+    public User updateById(@PathVariable int userid, @RequestBody User user) {
+    	return userService.update(userid, user);
     }
     
     @DeleteMapping("/{userid}")
