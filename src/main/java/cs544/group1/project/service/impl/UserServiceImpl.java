@@ -3,6 +3,8 @@ package cs544.group1.project.service.impl;
 import cs544.group1.project.domain.User;
 import cs544.group1.project.domain.UserRole;
 import cs544.group1.project.repo.UserRepository;
+import java.util.List;
+import java.util.Optional;
 import cs544.group1.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,13 +14,17 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements UserService{
+
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	UserRepository userRepository;

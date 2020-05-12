@@ -3,12 +3,21 @@ package cs544.group1.project.domain;
 import java.util.Date;
 
 import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-@Embeddable
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+@Entity
 public class Location {
 	
 	@Id
+	@GeneratedValue
 	private int id;
 	
 	private String street;
@@ -19,13 +28,17 @@ public class Location {
 	private String buildNo;
 	private String roomNo;
 	
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
 	private Date createdDate;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@UpdateTimestamp
 	private Date updatedDate;
 	
-	public Location() {
-		this.createdDate = new Date();
-		this.updatedDate = new Date();
-	}
+	
+	
+	public Location() {}
 
 	public int getId() {
 		return id;

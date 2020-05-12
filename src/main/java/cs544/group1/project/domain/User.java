@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
@@ -33,9 +35,11 @@ public class User {
     private char gender;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @CreationTimestamp
     private Date createdDate;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     private Date updatedDate;
 
 
@@ -60,8 +64,6 @@ public class User {
 //    private Reservation reservation;
     
     public User() {
-    	this.createdDate = new Date();
-        this.updatedDate = new Date();
     }
     
     public String getEmail() {
