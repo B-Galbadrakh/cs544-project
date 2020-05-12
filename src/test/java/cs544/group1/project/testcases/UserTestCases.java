@@ -38,6 +38,8 @@ public class UserTestCases {
 		user.setLastName("Test Lastname");
 		System.out.println(userService);
 		//assertNotNull(userService.save(user));
+		
+//		Added
 	}
 	
 	

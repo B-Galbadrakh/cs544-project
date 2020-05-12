@@ -37,6 +37,8 @@ public class EmailController {
         emailService.sendMail("tmcheckersystem@gmail.com", "b.galbadrah12@gmail.com", "Test Subject", "Test mail");
         System.out.println("Email sent");
         return "emailsent";
+        
+//        added
     }
 
 
