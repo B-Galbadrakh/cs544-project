@@ -1,27 +1,39 @@
 package cs544.group1.project.service;
 
+import cs544.group1.project.domain.Appointment;
+import cs544.group1.project.domain.Location;
+import cs544.group1.project.domain.User;
+import cs544.group1.project.repo.AppointmentRepo;
+import cs544.group1.project.service.request.AppointmentRequest;
+import cs544.group1.project.service.response.AppointmentResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import cs544.group1.project.domain.Appointment;
-import cs544.group1.project.domain.Reservation;
-import cs544.group1.project.repo.AppointmentRepo;
-import cs544.group1.project.service.response.AppointmentResponse;
-import cs544.group1.project.service.response.ReservationResponse;
 
 @Service
 public class AppointmentService {
 	
 	@Autowired
 	AppointmentRepo apointmentRepository;
+
+	@Autowired
+	private UserService userService;
+
+	@Autowired
+	private LocationService locationService;
 	
-	public void save(Appointment appointment) {
-		
+	public void save(AppointmentRequest appointmentRequest) {
+		User user = userService.findById(appointmentRequest.getUserId());
+		Appointment appointment = new Appointment();
+		appointment.setAppointmentDate(appointmentRequest.getAppointmentDate());
+		appointment.setUser(user);
+		Location location = locationService.findById(appointmentRequest.getLocationId());
+		appointment.setLocation(location);
+		//appointmentService.save(appointment);
 		apointmentRepository.save(appointment);
 	}
 	

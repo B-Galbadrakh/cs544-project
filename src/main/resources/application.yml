@@ -5,8 +5,8 @@ spring:
     name: Peoples Application
   datasource:
     url: jdbc:mysql://localhost/tmchecking?serverTimezone=UTC
-    username: kale
-    password: kale
+    username: root
+    password: root
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
