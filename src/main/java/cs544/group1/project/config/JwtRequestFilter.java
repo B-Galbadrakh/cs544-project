@@ -51,7 +51,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Token timed out");
             }
         } else {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Token should begin with Bearer");
+            logger.warn("JWT Token does not begin with Bearer String");
         }
 
         // Once we get the token validate it.

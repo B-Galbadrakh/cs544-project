@@ -1,4 +1,4 @@
-package cs544.group1.project.contract;
+package cs544.group1.project.dto;
 
 import java.io.Serializable;
 

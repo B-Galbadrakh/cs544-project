@@ -1,13 +1,10 @@
 package cs544.group1.project.controller;
 
-import cs544.group1.project.contract.LogInRequest;
-import cs544.group1.project.contract.LogInResponse;
-import cs544.group1.project.domain.User;
+import cs544.group1.project.dto.LogInRequest;
+import cs544.group1.project.dto.LogInResponse;
+import cs544.group1.project.dto.UserDTO;
 import cs544.group1.project.service.UserService;
-
-import java.util.List;
-import java.util.Map;
-
+import cs544.group1.project.util.CustomError;
 import cs544.group1.project.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,17 +13,15 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
-public class UserController {
+public class UserController extends ProjectDefaultController{
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -38,12 +33,12 @@ public class UserController {
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping()
-    public void createUser(@RequestBody User user) {
+    public void createUser(@Valid @RequestBody UserDTO user) throws CustomError {
         userService.save(user);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LogInRequest req){
+    public ResponseEntity<?> login(@Valid @RequestBody LogInRequest req){
         try
         {
             authenticate(req.getUsername(), req.getPassword());
@@ -71,17 +66,17 @@ public class UserController {
     }
     
     @GetMapping()
-    public List<User> getUsers(){
+    public List<UserDTO> getUsers(){
     	return userService.findAll();
     }
     
     @GetMapping("/{userid}")
-    public User getUserById(@PathVariable int userid) {
+    public UserDTO getUserById(@PathVariable int userid) {
     	return userService.findById(userid);
     }
     
     @PostMapping("/{userid}")
-    public User updateById(@PathVariable int userid, @RequestBody Map<String, String>password) {
+    public UserDTO updateById(@PathVariable int userid, @RequestBody Map<String, String>password) {
     	return userService.update(userid, password.get("password"));
     }
     
@@ -89,6 +84,5 @@ public class UserController {
     public void deleteUser(@PathVariable int userid) {
         userService.delete(userid);
     }
-    
-    
+
 }
