@@ -3,11 +3,13 @@ package cs544.group1.project.domain;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -28,6 +30,7 @@ public class Reservation {
 	private Date reservationDate;
 	
 	@ManyToOne
+	@JoinColumn(name="consumer_id")
 	private User consumer;
 	
 	@Temporal(TemporalType.TIMESTAMP)
@@ -36,7 +39,8 @@ public class Reservation {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
     
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="appointment_id")
     private Appointment appointment;
     
     

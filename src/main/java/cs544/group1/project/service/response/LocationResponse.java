@@ -1,18 +1,18 @@
-package cs544.group1.project.domain;
+package cs544.group1.project.service.response;
 
+import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
-public class Location {
-	
-	@Id
-	@GeneratedValue
+public class LocationResponse implements Serializable {
+
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int id;
 	
 	private String street;
@@ -26,11 +26,6 @@ public class Location {
 	private Date createdDate;
 	
 	private Date updatedDate;
-	
-	public Location() {
-		this.createdDate = new Date();
-		this.updatedDate = new Date();
-	}
 
 	public int getId() {
 		return id;
@@ -104,9 +99,5 @@ public class Location {
 		this.updatedDate = updatedDate;
 	}
 	
-	
-	
-	
-	
-
+    
 }

@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -39,17 +38,13 @@ public class User {
     
     
     @ManyToMany(cascade=CascadeType.ALL)
-    @JsonIgnoreProperties(value = "user")
     List<UserRole> role = new ArrayList<>();
     
-    @OneToMany(mappedBy = "id" , cascade=CascadeType.ALL)
+    @OneToMany(mappedBy = "user" , cascade=CascadeType.ALL)
     private List<Appointment> appointments = new ArrayList<>();
     
-    @OneToMany(mappedBy = "consumer")
+    @OneToMany(mappedBy = "consumer" , cascade=CascadeType.ALL)
     private List<Reservation> reservations = new ArrayList<>();
-    
-    
-//    private Reservation reservation;
     
     public User() {
     	this.createdDate = new Date();
