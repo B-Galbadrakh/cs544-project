@@ -1,22 +1,56 @@
 package cs544.group1.project.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import cs544.group1.project.domain.UserRole;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import cs544.group1.project.domain.User;
 import cs544.group1.project.repo.UserRepo;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
 	
 	@Autowired
 	UserRepo userRepository;
+
+
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		List<User> users = userRepository.findByEmail(username);
+		if(users == null || users.isEmpty())
+		{
+			throw new UsernameNotFoundException("User not found with email: " + username);
+		}
+		else
+		{
+			List<GrantedAuthority> authorities = new ArrayList<>();
+			User user = users.get(0);
+			authorities.add(new SimpleGrantedAuthority("ADMIN"));
+			if(user.getRole() != null && !user.getRole().isEmpty())
+			{
+				for(UserRole role : user.getRole())
+				{
+					authorities.add(new SimpleGrantedAuthority(role.getRole().name()));
+				}
+			}
+			return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),authorities);
+		}
+	}
 	
 	public void save(User user) {
-		
+		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
 		userRepository.save(user);
 	}
 	

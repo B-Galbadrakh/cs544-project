@@ -1,5 +1,8 @@
 package cs544.group1.project.domain;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.util.Date;
 import java.util.List;
 
@@ -26,14 +29,22 @@ public class User {
     private String password;
     
     private char gender;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedDate;
-    
-    
+
+
+    public List<UserRole> getRole() {
+        return role;
+    }
+
+    public void setRole(List<UserRole> role) {
+        this.role = role;
+    }
+
     @ManyToMany
     List<UserRole> role;
     

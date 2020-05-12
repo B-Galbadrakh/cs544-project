@@ -6,7 +6,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost/tmchecking?serverTimezone=UTC
     username: root
-    password: powercup
+    password: mysql
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
