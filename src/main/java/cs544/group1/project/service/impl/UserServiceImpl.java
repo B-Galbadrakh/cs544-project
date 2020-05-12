@@ -3,15 +3,13 @@ package cs544.group1.project.service.impl;
 import cs544.group1.project.domain.User;
 import cs544.group1.project.domain.UserRole;
 import cs544.group1.project.repo.UserRepository;
-import java.util.List;
-import java.util.Optional;
 import cs544.group1.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -54,6 +52,12 @@ public class UserServiceImpl implements UserService {
 			}
 			return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(),authorities);
 		}
+	}
+
+	public User getCurrentLoggedInUser()
+	{
+		String email = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+		return userRepository.findByEmail(email).get(0);
 	}
 
 	public void save(User user) {

@@ -10,7 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import cs544.group1.project.service.UserService;
 import cs544.group1.project.util.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -49,7 +51,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Token timed out");
             }
         } else {
-            logger.warn("JWT Token does not begin with Bearer String");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Token should begin with Bearer");
         }
 
         // Once we get the token validate it.
