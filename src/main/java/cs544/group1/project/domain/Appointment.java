@@ -13,6 +13,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.Column;
 
 @Entity
@@ -39,14 +42,17 @@ public class Appointment {
     private List<Reservation> reservations;
     
     
-    @AttributeOverrides({
-        @AttributeOverride(name="createdDate",
-                           column=@Column(name="LOC_CREATEDDATE")),
-        @AttributeOverride(name="updatedDate",
-                           column=@Column(name="LOC_UPDATEDDATE"))
-    })
-    @Embedded
-    private Location location;
+	/*
+	 * @AttributeOverrides({
+	 * 
+	 * @AttributeOverride(name="createdDate",
+	 * column=@Column(name="LOC_CREATEDDATE")),
+	 * 
+	 * @AttributeOverride(name="updatedDate",
+	 * column=@Column(name="LOC_UPDATEDDATE")) })
+	 * 
+	 * @Embedded private Location location;
+	 */
     
     
     

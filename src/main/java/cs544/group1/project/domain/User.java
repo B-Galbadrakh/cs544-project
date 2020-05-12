@@ -42,7 +42,7 @@ public class User {
     @JsonIgnoreProperties(value = "user")
     List<UserRole> role = new ArrayList<>();
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "id" , cascade=CascadeType.ALL)
     private List<Appointment> appointments = new ArrayList<>();
     
     @OneToMany(mappedBy = "consumer")
