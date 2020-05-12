@@ -16,6 +16,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 @Entity
 public class User {
     @Id
@@ -75,7 +77,9 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		BCryptPasswordEncoder crypt = new BCryptPasswordEncoder(12);
+		String newPassword = crypt.encode(password);
+		this.password = newPassword;
 	}
 
 	public char getGender() {
