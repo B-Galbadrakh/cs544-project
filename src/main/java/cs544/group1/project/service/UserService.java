@@ -9,5 +9,5 @@ public interface UserService {
     List<User> findAll();
     User update(int userId, String password);
     void delete(int userId);
-    User findById(int userid);
+    User findById(int userId);
 }

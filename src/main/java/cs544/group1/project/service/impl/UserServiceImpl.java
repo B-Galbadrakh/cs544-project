@@ -32,23 +32,23 @@ public class UserServiceImpl implements UserService {
 		return user.orElse(null);
 	}
 
-	@Override
 	public User update(int userId, String password) {
 		User oldUser = findById(userId);
-    	if(oldUser == null){
-    		return null;
-    	}
-    	oldUser.setPassword(password);
-    	return userRepository.save(oldUser);
+		//TODO: Throw user not found exception and catch in a controller advice
+		if(oldUser == null){
+			return null;
+		}
+		oldUser.setPassword(password);
+		return userRepository.save(oldUser);
 	}
 
-	@Override
 	public void delete(int userId) {
+		//TODO: unnecessary block
 		User oldUser = findById(userId);
-    	if(oldUser == null){
-    		return;
-    	}
+		if(oldUser == null){
+			return;
+		}
+		//
 		userRepository.deleteById(userId);
 	}
-
 }
