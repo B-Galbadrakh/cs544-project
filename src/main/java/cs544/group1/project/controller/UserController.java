@@ -39,7 +39,7 @@ public class UserController {
 
     @PostMapping()
     public void createUser(@RequestBody User user) {
-    	userService.save(user);
+        userService.save(user);
     }
 
     @PostMapping("/login")
@@ -50,6 +50,7 @@ public class UserController {
         }
         catch(Exception exc)
         {
+            exc.printStackTrace();
             return ResponseEntity.status(401).body("Invalid credentials");
         }
         final UserDetails userDetails = userService.loadUserByUsername(req.getUsername());
@@ -86,7 +87,7 @@ public class UserController {
     
     @DeleteMapping("/{userid}")
     public void deleteUser(@PathVariable int userid) {
-    	userService.delete(userid);
+        userService.delete(userid);
     }
     
     

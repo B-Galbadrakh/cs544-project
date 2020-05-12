@@ -77,9 +77,7 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		BCryptPasswordEncoder crypt = new BCryptPasswordEncoder(12);
-		String newPassword = crypt.encode(password);
-		this.password = newPassword;
+		this.password = password;
 	}
 
 	public char getGender() {
