@@ -12,6 +12,9 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 
 @Entity
 public class UserRole {
@@ -20,22 +23,19 @@ public class UserRole {
 	@GeneratedValue
 	private int id;
 	
-	@ManyToMany(mappedBy = "role")
-	private List<User> user;
-	
 	@Enumerated(EnumType.STRING)
 	private UserRoles userRoles;
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
     private Date createdDate;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     private Date updatedDate;
     
     
     public UserRole() {
-    	this.createdDate = new Date();
-		this.updatedDate = new Date();
     }
 
 
@@ -48,15 +48,6 @@ public class UserRole {
 		this.id = id;
 	}
 
-
-	public List<User> getUser() {
-		return user;
-	}
-
-
-	public void setUser(List<User> user) {
-		this.user = user;
-	}
 
 
 	public UserRoles getUserRoles() {

@@ -3,14 +3,18 @@ package cs544.group1.project.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+
 import cs544.group1.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import cs544.group1.project.domain.User;
 import cs544.group1.project.repo.UserRepository;
 
 @Service
+@Transactional(propagation = Propagation.REQUIRES_NEW)
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
@@ -48,7 +52,6 @@ public class UserServiceImpl implements UserService {
 		if(oldUser == null){
 			return;
 		}
-		//
 		userRepository.deleteById(userId);
 	}
 }

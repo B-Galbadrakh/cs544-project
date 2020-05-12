@@ -13,6 +13,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.Column;
 
 @Entity
@@ -23,13 +27,15 @@ public class Appointment {
 	private int id;
 	
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date appointmentDate;
+	private Date date;
 	
 	
 	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
     private Date createdDate;
     
     @Temporal(TemporalType.TIMESTAMP)
+    @UpdateTimestamp
     private Date updatedDate;
     
     @ManyToOne
@@ -39,20 +45,12 @@ public class Appointment {
     private List<Reservation> reservations;
     
     
-    @AttributeOverrides({
-        @AttributeOverride(name="createdDate",
-                           column=@Column(name="LOC_CREATEDDATE")),
-        @AttributeOverride(name="updatedDate",
-                           column=@Column(name="LOC_UPDATEDDATE"))
-    })
-    @Embedded
+    @ManyToOne
     private Location location;
     
     
     
     public Appointment() {
-    	this.createdDate = new Date();
-		this.updatedDate = new Date();
     }
 
 
@@ -69,14 +67,13 @@ public class Appointment {
 
 
 
-	public Date getAppointmentDate() {
-		return appointmentDate;
+	public Date getDate() {
+		return date;
 	}
 
 
-
-	public void setAppointmentDate(Date appointmentDate) {
-		this.appointmentDate = appointmentDate;
+	public void setDate(Date appointmentDate) {
+		this.date = appointmentDate;
 	}
 
 
