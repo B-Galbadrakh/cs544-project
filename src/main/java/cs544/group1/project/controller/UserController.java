@@ -1,14 +1,13 @@
 package cs544.group1.project.controller;
 
 import cs544.group1.project.domain.User;
-import cs544.group1.project.repo.UserRepo;
 import cs544.group1.project.service.UserService;
+import cs544.group1.project.service.impl.UserServiceImpl;
 
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,7 +25,7 @@ public class UserController {
 
     @PostMapping()
     public void createUser(@RequestBody User user) {
-    	userService.save(user);
+        userService.save(user);
     }
     
     @GetMapping()
@@ -46,7 +45,7 @@ public class UserController {
     
     @DeleteMapping("/{userid}")
     public void deleteUser(@PathVariable int userid) {
-    	userService.delete(userid);
+        userService.delete(userid);
     }
     
     

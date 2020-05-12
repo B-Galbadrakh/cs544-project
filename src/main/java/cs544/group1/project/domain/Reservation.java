@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import cs544.group1.project.types.ReservationStatus;
 
 @Entity
 public class Reservation {
@@ -22,7 +21,7 @@ public class Reservation {
 	private int id;
 	
 	@Enumerated(EnumType.STRING)
-	private ReservationStatus status;
+	private Status status;
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date reservationDate;
@@ -60,13 +59,13 @@ public class Reservation {
 
 
 
-	public ReservationStatus getStatus() {
+	public Status getStatus() {
 		return status;
 	}
 
 
 
-	public void setStatus(ReservationStatus status) {
+	public void setStatus(Status status) {
 		this.status = status;
 	}
 
