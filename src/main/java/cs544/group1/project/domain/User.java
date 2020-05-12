@@ -1,5 +1,8 @@
 package cs544.group1.project.domain;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.util.Date;
 import java.util.List;
 
@@ -30,16 +33,24 @@ public class User {
     private String password;
     
     private char gender;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @CreationTimestamp
     private Date createdDate;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @UpdateTimestamp
     private Date updatedDate;
-    
-    
+
+
+    public List<UserRole> getRole() {
+        return role;
+    }
+
+    public void setRole(List<UserRole> role) {
+        this.role = role;
+    }
+
     @ManyToMany
     List<UserRole> role;
     
@@ -68,9 +79,7 @@ public class User {
 	}
 
 	public void setPassword(String password) {
-		BCryptPasswordEncoder crypt = new BCryptPasswordEncoder(12);
-		String newPassword = crypt.encode(password);
-		this.password = newPassword;
+		this.password = password;
 	}
 
 	public char getGender() {
