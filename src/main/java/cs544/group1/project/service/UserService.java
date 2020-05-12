@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import cs544.group1.project.domain.User;
 
 public interface UserService extends UserDetailsService{
-    void save(User user);
+    User save(User user);
     List<User> findAll();
     User update(int userId, String password);
     void delete(int userId);
