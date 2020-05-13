@@ -53,33 +53,10 @@ public class ReservationServiceImpl implements ReservationService {
 	public List<ReservationResponse> findAll(){
 		List<Reservation> reservations = reservationRepository.findAll();
 		return convertEntityListToResponsePage(reservations);
-//		List<ReservationResponse> reservationResponses = new ArrayList<>();
-//		for(Reservation res: reservations) {
-//			ReservationResponse reservationResponse = new ReservationResponse();
-//			reservationResponse.setCreatedDate(res.getCreatedDate());
-//			reservationResponse.setId(res.getId());
-//			reservationResponse.setReservationDate(res.getReservationDate());
-//			reservationResponse.setStatus(res.getStatus());
-//			reservationResponse.setUpdatedDate(res.getUpdatedDate());
-//			reservationResponses.add(reservationResponse);
-//		}
-//		return reservationResponses;
 	}
 	
 	public ReservationResponse findReservationResponseById(int reservationid) {
 		Optional<Reservation> reservation = reservationRepository.findById(reservationid);
-//		ReservationResponse reservationResponse = new ReservationResponse();
-//		if(reservation.isPresent()) {
-//			reservationResponse.setCreatedDate(reservation.get().getCreatedDate());
-//			reservationResponse.setId(reservation.get().getId());
-//			reservationResponse.setReservationDate(reservation.get().getReservationDate());
-//			reservationResponse.setStatus(reservation.get().getStatus());
-//			reservationResponse.setUpdatedDate(reservation.get().getUpdatedDate());
-//		 return reservationResponse;
-//		}
-//		else {
-//			return null;
-//		}
 
 		if(reservation.isPresent()) {
 			return convertEntityToResponse(reservation.get());
@@ -94,13 +71,15 @@ public class ReservationServiceImpl implements ReservationService {
 		return Reservation.isPresent() ? Reservation.get(): null; 
 	}
 	
-	public Reservation update(int reservationId, Reservation newReservation) {
-		Reservation oldReservation = findById(reservationId);
+	public ReservationResponse update(Reservation newReservation) {
+		Reservation oldReservation = findById(newReservation.getId());
     	if(oldReservation == null){
     		return null;
     	}
     	oldReservation.setStatus(newReservation.getStatus());
-    	return reservationRepository.save(oldReservation);
+    	oldReservation.setReservationDate(newReservation.getReservationDate());
+    	reservationRepository.save(oldReservation);
+    	return convertEntityToResponse(oldReservation);
 	}
 	
 	public void delete(int ReservationId) {

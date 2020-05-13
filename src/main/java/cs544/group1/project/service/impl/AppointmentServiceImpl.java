@@ -46,39 +46,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointment.setUser(user);
 		Location location = locationService.findById(appointmentRequest.getLocationId());
 		appointment.setLocation(location);
-		//appointmentService.save(appointment);
 		apointmentRepository.save(appointment);
 	}
 	
 	public List<AppointmentResponse> findAll(){
 		List<Appointment> appointments = apointmentRepository.findAll();
-//		List<AppointmentResponse> appointmentResponses = new ArrayList<>();
 		return convertEntityListToResponsePage(appointments);
-//		for(Appointment app: appointments) {
-//			AppointmentResponse appointmentResponse = new AppointmentResponse();
-//			appointmentResponse.setAppointmentDate(app.getAppointmentDate());
-//			appointmentResponse.setCreatedDate(app.getCreatedDate());
-//			appointmentResponse.setId(app.getId());
-//			appointmentResponse.setUpdatedDate(app.getUpdatedDate());
-//			appointmentResponses.add(appointmentResponse);
-//		}
-//		return appointmentResponses;
 	}
 	
 	public AppointmentResponse findAppointmentResponseById(int appointmentid) {
 		Optional<Appointment> appointment = apointmentRepository.findById(appointmentid);
-//		AppointmentResponse appointmentResponse = new AppointmentResponse();
-//		if(appointment.isPresent()) {
-//			appointmentResponse.setAppointmentDate(appointment.get().getAppointmentDate());
-//			appointmentResponse.setCreatedDate(appointment.get().getCreatedDate());
-//			appointmentResponse.setId(appointment.get().getId());
-//			appointmentResponse.setUpdatedDate(appointment.get().getUpdatedDate());
-//		 return appointmentResponse;
-//		}
-//		else {
-//			return null;
-//		}
-
 		if(appointment.isPresent()) {
 			return convertEntityToResponse(appointment.get());
 		}
@@ -92,14 +69,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return Appointment.isPresent() ? Appointment.get(): null; 
 	}
 	
-	public Appointment update(int AppointmentId, Appointment newAppointment) {
-		Appointment oldAppointment = findById(AppointmentId);
+	public AppointmentResponse update(Appointment newAppointment) {
+		Appointment oldAppointment = findById(newAppointment.getId());
     	if(oldAppointment == null){
     		return null;
     	}
     	oldAppointment.setAppointmentDate(newAppointment.getAppointmentDate());
     	oldAppointment.setUpdatedDate(new Date());
-    	return apointmentRepository.save(oldAppointment);
+    	apointmentRepository.save(oldAppointment);
+    	return convertEntityToResponse(oldAppointment);
 	}
 	
 	public void delete(int AppointmentId) {

@@ -28,41 +28,15 @@ public class LocationServiceImpl implements LocationService {
 	
 	public List<LocationResponse> findAll(){
 		List<Location> locations = locationRepository.findAll();
-//		List<LocationResponse> locationResponses = new ArrayList<>();
 		return convertEntityListToResponse(locations);
-
-//		for(Location l: locations) {
-//			LocationResponse locationResponse = new LocationResponse();
-//			locationResponse.setBuildNo(l.getBuildNo());
-//			locationResponse.setCity(l.getCity());
-//			locationResponse.setCreatedDate(l.getCreatedDate());
-//			locationResponse.setId(l.getId());
-//			locationResponse.setRoomNo(l.getRoomNo());
-//			locationResponse.setState(l.getState());
-//			locationResponse.setStreet(l.getStreet());
-//			locationResponse.setUpdatedDate(l.getUpdatedDate());
-//			locationResponse.setZipcode(l.getZipcode());
-//			locationResponses.add(locationResponse);
-//		}
-//		return locationResponses;
 	}
 	
 	public LocationResponse findLocationResponseById(int locationid) {
 		Optional<Location> location = locationRepository.findById(locationid);
 		LocationResponse locationResponse = new LocationResponse();
 		if(location.isPresent()) {
-//			locationResponse.setBuildNo(location.get().getBuildNo());
-//			locationResponse.setCity(location.get().getCity());
-//			locationResponse.setCreatedDate(location.get().getCreatedDate());
-//			locationResponse.setId(location.get().getId());
-//			locationResponse.setRoomNo(location.get().getRoomNo());
-//			locationResponse.setState(location.get().getState());
-//			locationResponse.setStreet(location.get().getStreet());
-//			locationResponse.setUpdatedDate(location.get().getUpdatedDate());
-//			locationResponse.setZipcode(location.get().getZipcode());
 			Location location1 = location.get();
 			return convertEntityToResponse(location1);
-		 //return locationResponse;
 		}
 		else {
 			return null;
@@ -74,13 +48,15 @@ public class LocationServiceImpl implements LocationService {
 		return location.isPresent() ? location.get() : null;
 	}
 	
-	public Location update(int locationId, Location location) {
-		Location oldLocation = findById(locationId);
+	public LocationResponse update(Location newlocation) {
+		Location oldLocation = findById(newlocation.getId());
     	if(oldLocation == null){
     		return null;
     	}
-    	oldLocation.setRoomNo(location.getRoomNo());
-    	return locationRepository.save(oldLocation);
+    	oldLocation.setRoomNo(newlocation.getRoomNo());
+    	oldLocation.setBuildNo(newlocation.getBuildNo());
+    	locationRepository.save(oldLocation);
+    	return convertEntityToResponse(oldLocation);
 	}
 	
 	public void delete(int locationId) {

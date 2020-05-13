@@ -31,9 +31,9 @@ public class ReservationController {
     	return reservationService.findReservationResponseById(reservationid);
     }
     
-    @PostMapping("/{reservationid}")
-    public Reservation updateById(@PathVariable int Reservationid, @RequestBody Reservation reservation) {
-    	return reservationService.update(Reservationid, reservation);
+    @PutMapping()
+    public ReservationResponse updateById(@RequestBody Reservation reservation) {
+    	return reservationService.update(reservation);
     }
     
     @DeleteMapping("/{reservationid}")

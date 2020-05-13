@@ -32,9 +32,9 @@ public class AppointmentController {
     	return appointmentService.findAppointmentResponseById(appointmentid);
     }
     
-    @PostMapping("/{appointmentid}")
-    public Appointment updateById(@PathVariable int appointmentid, @RequestBody Appointment appointment) {
-    	return appointmentService.update(appointmentid, appointment);
+    @PutMapping()
+    public AppointmentResponse updateById(@RequestBody Appointment appointment) {
+    	return appointmentService.update(appointment);
     }
     
     @DeleteMapping("/{appointmentid}")
