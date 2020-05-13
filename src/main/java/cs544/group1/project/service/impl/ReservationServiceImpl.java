@@ -9,13 +9,14 @@ import cs544.group1.project.dto.UserDTO;
 import cs544.group1.project.repo.ReservationRepo;
 import cs544.group1.project.service.ReservationService;
 import cs544.group1.project.service.UserService;
+import cs544.group1.project.service.mappers.ReservationResponseMapper;
 import cs544.group1.project.util.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -31,6 +32,9 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Autowired
 	CustomObjectMapper objectMapper;
+
+	@Autowired
+	protected ReservationResponseMapper responseMapper;
 	
 	public void save(ReservationRequest reservationRequest) {
 		Reservation reservation = new Reservation();
@@ -48,31 +52,39 @@ public class ReservationServiceImpl implements ReservationService {
 	
 	public List<ReservationResponse> findAll(){
 		List<Reservation> reservations = reservationRepository.findAll();
-		List<ReservationResponse> reservationResponses = new ArrayList<>();
-		for(Reservation res: reservations) {
-			ReservationResponse reservationResponse = new ReservationResponse();
-			reservationResponse.setCreatedDate(res.getCreatedDate());
-			reservationResponse.setId(res.getId());
-			reservationResponse.setReservationDate(res.getReservationDate());
-			reservationResponse.setStatus(res.getStatus());
-			reservationResponse.setUpdatedDate(res.getUpdatedDate());
-			reservationResponses.add(reservationResponse);
-		}
-		return reservationResponses;
+		return convertEntityListToResponsePage(reservations);
+//		List<ReservationResponse> reservationResponses = new ArrayList<>();
+//		for(Reservation res: reservations) {
+//			ReservationResponse reservationResponse = new ReservationResponse();
+//			reservationResponse.setCreatedDate(res.getCreatedDate());
+//			reservationResponse.setId(res.getId());
+//			reservationResponse.setReservationDate(res.getReservationDate());
+//			reservationResponse.setStatus(res.getStatus());
+//			reservationResponse.setUpdatedDate(res.getUpdatedDate());
+//			reservationResponses.add(reservationResponse);
+//		}
+//		return reservationResponses;
 	}
 	
 	public ReservationResponse findReservationResponseById(int reservationid) {
 		Optional<Reservation> reservation = reservationRepository.findById(reservationid);
-		ReservationResponse reservationResponse = new ReservationResponse();
+//		ReservationResponse reservationResponse = new ReservationResponse();
+//		if(reservation.isPresent()) {
+//			reservationResponse.setCreatedDate(reservation.get().getCreatedDate());
+//			reservationResponse.setId(reservation.get().getId());
+//			reservationResponse.setReservationDate(reservation.get().getReservationDate());
+//			reservationResponse.setStatus(reservation.get().getStatus());
+//			reservationResponse.setUpdatedDate(reservation.get().getUpdatedDate());
+//		 return reservationResponse;
+//		}
+//		else {
+//			return null;
+//		}
+
 		if(reservation.isPresent()) {
-			reservationResponse.setCreatedDate(reservation.get().getCreatedDate());
-			reservationResponse.setId(reservation.get().getId());
-			reservationResponse.setReservationDate(reservation.get().getReservationDate());
-			reservationResponse.setStatus(reservation.get().getStatus());
-			reservationResponse.setUpdatedDate(reservation.get().getUpdatedDate());
-		 return reservationResponse;
+			return convertEntityToResponse(reservation.get());
 		}
-		else {
+		else{
 			return null;
 		}
 	}
@@ -97,6 +109,23 @@ public class ReservationServiceImpl implements ReservationService {
     		return;
     	}
     	reservationRepository.deleteById(ReservationId);
+	}
+
+	@Override
+	public List<ReservationResponse> convertEntityListToResponsePage(List<Reservation> reservationList) {
+		if(null == reservationList){
+			return null;
+		}
+		else {
+			return reservationList.stream()
+					.map(responseMapper::map)
+					.collect(Collectors.toList());
+		}
+	}
+
+	@Override
+	public ReservationResponse convertEntityToResponse(Reservation reservation) {
+		return responseMapper.map(reservation);
 	}
 
 }

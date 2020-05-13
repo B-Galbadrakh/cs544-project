@@ -5,7 +5,7 @@ import cs544.group1.project.domain.UserRole;
 import cs544.group1.project.dto.UserDTO;
 import cs544.group1.project.repo.UserRepository;
 import cs544.group1.project.service.UserService;
-import cs544.group1.project.service.mappers.BaseMapper;
+import cs544.group1.project.service.mappers.UserResponseMapper;
 import cs544.group1.project.util.CustomError;
 import cs544.group1.project.util.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 	CustomObjectMapper objectMapper;
 
 	@Autowired
-	protected BaseMapper<User, UserDTO> responseMapper;
+	protected UserResponseMapper responseMapper;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -85,8 +85,7 @@ public class UserServiceImpl implements UserService {
 
 	public List<UserDTO> findAll() {
 		List<User> users = userRepository.findAll();
-		List<UserDTO> collect = convertEntityListToResponsePage(users);
-		//List<UserDTO> collect1 = users.stream().map(objectMapper::getUserDTOFromEntity).collect(Collectors.toList());
+		List<UserDTO> collect = convertEntityListToResponse(users);
 		return collect;
 	}
 
@@ -96,7 +95,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<UserDTO> convertEntityListToResponsePage(List<User> userList) {
+	public List<UserDTO> convertEntityListToResponse(List<User> userList) {
 		if(null == userList){
 			return null;
 		}

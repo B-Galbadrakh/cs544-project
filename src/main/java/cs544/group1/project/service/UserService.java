@@ -14,5 +14,5 @@ public interface UserService extends UserDetailsService{
     UserDTO update(int userId, String password);
     void delete(int userId);
     UserDTO findById(int userId);
-    public List<UserDTO> convertEntityListToResponsePage(List<User> userList);
+    public List<UserDTO> convertEntityListToResponse(List<User> userList);
 }

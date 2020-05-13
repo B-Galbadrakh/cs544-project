@@ -18,5 +18,7 @@ public interface LocationService {
 	public Location update(int locationId, Location location);
 	
 	public void delete(int locationId);
+	public List<LocationResponse> convertEntityListToResponse(List<Location> locationList);
+	public LocationResponse convertEntityToResponse(Location locationList);
 
 }

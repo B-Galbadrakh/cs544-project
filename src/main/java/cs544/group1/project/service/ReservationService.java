@@ -23,4 +23,8 @@ public interface ReservationService {
 	
 	public void delete(int ReservationId);
 
+	public List<ReservationResponse> convertEntityListToResponsePage(List<Reservation> reservationList);
+
+	public ReservationResponse convertEntityToResponse(Reservation reservation);
+
 }
