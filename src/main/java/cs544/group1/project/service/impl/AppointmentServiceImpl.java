@@ -37,7 +37,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Autowired
 	protected AppointmentResponseMapper responseMapper;
 	
-	public void save(AppointmentRequest appointmentRequest) {
+	public AppointmentResponse save(AppointmentRequest appointmentRequest) {
 
 		UserDTO userDTO = userService.findById(appointmentRequest.getUserId());
 		User user = objectMapper.getUserEntityFromDTO(userDTO);
@@ -47,6 +47,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 		Location location = locationService.findById(appointmentRequest.getLocationId());
 		appointment.setLocation(location);
 		apointmentRepository.save(appointment);
+		return convertEntityToResponse(appointment);
 	}
 	
 	public List<AppointmentResponse> findAll(){

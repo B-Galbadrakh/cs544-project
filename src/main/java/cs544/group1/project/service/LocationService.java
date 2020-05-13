@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface LocationService {
 
-	public void save(Location location);
+	public LocationResponse save(Location location);
 	
 	public List<LocationResponse> findAll();
 	

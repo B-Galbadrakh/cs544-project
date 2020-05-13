@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 public interface AppointmentService {
 
-	public void save(AppointmentRequest appointmentRequest);
+	public AppointmentResponse save(AppointmentRequest appointmentRequest);
 	
 	public List<AppointmentResponse> findAll();
 	
