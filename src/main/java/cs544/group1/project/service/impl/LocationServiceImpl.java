@@ -4,57 +4,40 @@ import cs544.group1.project.domain.Location;
 import cs544.group1.project.dto.LocationResponse;
 import cs544.group1.project.repo.LocationRepo;
 import cs544.group1.project.service.LocationService;
+import cs544.group1.project.service.mappers.LocationResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class LocationServiceImpl implements LocationService {
 	
 	@Autowired
     LocationRepo locationRepository;
-	
-	public void save(Location location) {
+
+	@Autowired
+	protected LocationResponseMapper responseMapper;
+
+	public LocationResponse save(Location location) {
 		
 		locationRepository.save(location);
+		return convertEntityToResponse(location);
 	}
 	
 	public List<LocationResponse> findAll(){
 		List<Location> locations = locationRepository.findAll();
-		List<LocationResponse> locationResponses = new ArrayList<>();
-		for(Location l: locations) {
-			LocationResponse locationResponse = new LocationResponse();
-			locationResponse.setBuildNo(l.getBuildNo());
-			locationResponse.setCity(l.getCity());
-			locationResponse.setCreatedDate(l.getCreatedDate());
-			locationResponse.setId(l.getId());
-			locationResponse.setRoomNo(l.getRoomNo());
-			locationResponse.setState(l.getState());
-			locationResponse.setStreet(l.getStreet());
-			locationResponse.setUpdatedDate(l.getUpdatedDate());
-			locationResponse.setZipcode(l.getZipcode());
-			locationResponses.add(locationResponse);
-		}
-		return locationResponses;
+		return convertEntityListToResponse(locations);
 	}
 	
 	public LocationResponse findLocationResponseById(int locationid) {
 		Optional<Location> location = locationRepository.findById(locationid);
 		LocationResponse locationResponse = new LocationResponse();
 		if(location.isPresent()) {
-			locationResponse.setBuildNo(location.get().getBuildNo());
-			locationResponse.setCity(location.get().getCity());
-			locationResponse.setCreatedDate(location.get().getCreatedDate());
-			locationResponse.setId(location.get().getId());
-			locationResponse.setRoomNo(location.get().getRoomNo());
-			locationResponse.setState(location.get().getState());
-			locationResponse.setStreet(location.get().getStreet());
-			locationResponse.setUpdatedDate(location.get().getUpdatedDate());
-			locationResponse.setZipcode(location.get().getZipcode());
-		 return locationResponse;
+			Location location1 = location.get();
+			return convertEntityToResponse(location1);
 		}
 		else {
 			return null;
@@ -66,13 +49,15 @@ public class LocationServiceImpl implements LocationService {
 		return location.isPresent() ? location.get() : null;
 	}
 	
-	public Location update(int locationId, Location location) {
-		Location oldLocation = findById(locationId);
+	public LocationResponse update(Location newlocation) {
+		Location oldLocation = findById(newlocation.getId());
     	if(oldLocation == null){
     		return null;
     	}
-    	oldLocation.setRoomNo(location.getRoomNo());
-    	return locationRepository.save(oldLocation);
+    	oldLocation.setRoomNo(newlocation.getRoomNo());
+    	oldLocation.setBuildNo(newlocation.getBuildNo());
+    	locationRepository.save(oldLocation);
+    	return convertEntityToResponse(oldLocation);
 	}
 	
 	public void delete(int locationId) {
@@ -81,6 +66,23 @@ public class LocationServiceImpl implements LocationService {
     		return;
     	}
     	locationRepository.deleteById(locationId);
+	}
+
+	@Override
+	public List<LocationResponse> convertEntityListToResponse(List<Location> locationList) {
+		if(null == locationList){
+			return null;
+		}
+		else {
+			return locationList.stream()
+					.map(responseMapper::map)
+					.collect(Collectors.toList());
+		}
+	}
+
+	@Override
+	public LocationResponse convertEntityToResponse(Location location) {
+		return responseMapper.map(location);
 	}
 
 }

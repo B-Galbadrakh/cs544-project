@@ -5,6 +5,7 @@ import cs544.group1.project.domain.UserRole;
 import cs544.group1.project.dto.UserDTO;
 import cs544.group1.project.repo.UserRepository;
 import cs544.group1.project.service.UserService;
+import cs544.group1.project.service.mappers.UserResponseMapper;
 import cs544.group1.project.util.CustomError;
 import cs544.group1.project.util.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,9 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	CustomObjectMapper objectMapper;
 
+	@Autowired
+	protected UserResponseMapper responseMapper;
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		List<User> users = userRepository.findByEmail(username);
@@ -49,7 +53,7 @@ public class UserServiceImpl implements UserService {
 		{
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			User user = users.get(0);
-			authorities.add(new SimpleGrantedAuthority("ADMIN"));
+			//authorities.add(new SimpleGrantedAuthority("ADMIN"));
 			if(user.getRole() != null && !user.getRole().isEmpty())
 			{
 				for(UserRole role : user.getRole())
@@ -67,7 +71,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByEmail(email).get(0);
 	}
 
-	public User save(UserDTO userDTO) throws CustomError {
+	public UserDTO save(UserDTO userDTO) throws CustomError {
 		List<User> tempUser = userRepository.findByEmail(userDTO.getEmail());
 		if(tempUser != null && tempUser.size() > 0)
 		{
@@ -76,12 +80,15 @@ public class UserServiceImpl implements UserService {
 		User user = objectMapper.getUserEntityFromDTO(userDTO);
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		return userRepository.save(user);
+		User newUser = userRepository.save(user);
+		userDTO.setPassword(null);
+		userDTO.setId(newUser.getId());
+		return userDTO;
 	}
 
 	public List<UserDTO> findAll() {
 		List<User> users = userRepository.findAll();
-		List<UserDTO> collect = users.stream().map(objectMapper::getUserDTOFromEntity).collect(Collectors.toList());
+		List<UserDTO> collect = convertEntityListToResponse(users);
 		return collect;
 	}
 
@@ -90,14 +97,53 @@ public class UserServiceImpl implements UserService {
 		return user.map(objectMapper::getUserDTOFromEntity).get();
 	}
 
-	public UserDTO update(int userId, String password) {
+
+	@Override
+	public List<UserDTO> convertEntityListToResponse(List<User> userList) {
+		if(null == userList){
+			return null;
+		}
+		else {
+			return userList.stream()
+					.map(responseMapper::map)
+					.collect(Collectors.toList());
+		}
+	}
+
+	public UserDTO update(int userId, UserDTO userDTO) throws CustomError {
 		Optional<User> user = userRepository.findById(userId);
 		User oldUser = user.get();
 		if(oldUser == null){
 			return null;
 		}
-		oldUser.setPassword(password);
-		return objectMapper.getUserDTOFromEntity(userRepository.save(oldUser));
+		if(userDTO.getFirstName() != null && userDTO.getFirstName().length() > 0)
+		{
+			oldUser.setFirstName(userDTO.getFirstName());
+		}
+		if(userDTO.getLastName() != null && userDTO.getLastName().length() > 0)
+		{
+			oldUser.setLastName(userDTO.getLastName());
+		}
+		if(userDTO.getEmail() != null && userDTO.getEmail().length() > 0)
+		{
+			List<User> usrLst = userRepository.findByEmail(userDTO.getEmail());
+			if(usrLst.get(0).getId() != userId)
+			{
+				throw new CustomError(400,"Email already used by another user",null);
+			}
+			oldUser.setEmail(userDTO.getEmail());
+		}
+		if((userDTO.getGender()+"").length() > 0)
+		{
+			oldUser.setGender(userDTO.getGender());
+		}
+		if(userDTO.getPassword() != null && userDTO.getPassword().length() > 0)
+		{
+			oldUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		}
+		UserDTO rslt = objectMapper.getUserDTOFromEntity(userRepository.save(oldUser));
+		rslt.setPassword(null);
+		return rslt;
 	}
 
 	public void delete(int userId) {

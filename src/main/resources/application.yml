@@ -1,5 +1,5 @@
 server:
-  port: 8082
+  port: 8081
 spring:
   mail:
     host: smtp.gmail.com
@@ -17,11 +17,6 @@ spring:
             enable: true
   application:
     name: Peoples Application
-#  datasource:
-#    url: jdbc:mysql://localhost/tmchecking?serverTimezone=UTC
-#    username: root
-#    password: root
-#    driverClassName: com.mysql.cj.jdbc.Driver
   datasource:
     url: jdbc:mysql://162.241.219.101:3306/lilcpand_tmchecking?serverTimezone=UTC
     username: lilcpand_tmcheck
@@ -37,3 +32,4 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
+scheduledEmailCron: '0 0/2 * * * *'

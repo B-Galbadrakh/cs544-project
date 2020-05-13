@@ -10,14 +10,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/locations")
-public class LocationController {
+public class LocationController extends ProjectDefaultController{
 
     @Autowired
     private LocationService locationService;
 
     @PostMapping()
-    public void createLocation(@RequestBody Location location) {
-    	locationService.save(location);
+    public LocationResponse createLocation(@RequestBody Location location) {
+    	return locationService.save(location);
     }
     
     @GetMapping()
@@ -30,9 +30,9 @@ public class LocationController {
     	return locationService.findLocationResponseById(locationid);
     }
     
-    @PostMapping("/{locationid}")
-    public Location updateById(@PathVariable int Locationid, @RequestBody Location location) {
-    	return locationService.update(Locationid, location);
+    @PutMapping()
+    public LocationResponse updateById(@RequestBody Location location) {
+    	return locationService.update(location);
     }
     
     @DeleteMapping("/{locationid}")

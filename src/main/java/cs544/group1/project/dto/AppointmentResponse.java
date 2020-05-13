@@ -1,8 +1,9 @@
 package cs544.group1.project.dto;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class AppointmentResponse {
+public class AppointmentResponse implements Serializable {
 	
 	private int id;
 	
@@ -11,6 +12,10 @@ public class AppointmentResponse {
     private Date createdDate;
     
     private Date updatedDate;
+
+    public AppointmentResponse(){
+
+	}
 
 	public int getId() {
 		return id;

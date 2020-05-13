@@ -11,15 +11,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/appointments")
-public class AppointmentController {
+public class AppointmentController extends ProjectDefaultController {
 
     @Autowired
     private AppointmentService appointmentService;
 
     @PostMapping()
-    public void createAppointment(@RequestBody AppointmentRequest appointmentRequest) {
+    public AppointmentResponse createAppointment(@RequestBody AppointmentRequest appointmentRequest) {
 
-    	appointmentService.save(appointmentRequest);
+    	return appointmentService.save(appointmentRequest);
     }
     
     @GetMapping()
@@ -32,9 +32,9 @@ public class AppointmentController {
     	return appointmentService.findAppointmentResponseById(appointmentid);
     }
     
-    @PostMapping("/{appointmentid}")
-    public Appointment updateById(@PathVariable int appointmentid, @RequestBody Appointment appointment) {
-    	return appointmentService.update(appointmentid, appointment);
+    @PutMapping()
+    public AppointmentResponse updateById(@RequestBody Appointment appointment) {
+    	return appointmentService.update(appointment);
     }
     
     @DeleteMapping("/{appointmentid}")

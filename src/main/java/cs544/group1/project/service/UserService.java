@@ -9,9 +9,10 @@ import java.util.List;
 
 public interface UserService extends UserDetailsService{
 
-    User save(UserDTO user) throws CustomError;
+    UserDTO save(UserDTO user) throws CustomError;
     List<UserDTO> findAll();
-    UserDTO update(int userId, String password);
+    UserDTO update(int userId,UserDTO user) throws CustomError;
     void delete(int userId);
     UserDTO findById(int userId);
+    public List<UserDTO> convertEntityListToResponse(List<User> userList);
 }
