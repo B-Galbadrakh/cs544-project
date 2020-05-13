@@ -21,9 +21,10 @@ public class LocationServiceImpl implements LocationService {
 	@Autowired
 	protected LocationResponseMapper responseMapper;
 
-	public void save(Location location) {
+	public LocationResponse save(Location location) {
 		
 		locationRepository.save(location);
+		return convertEntityToResponse(location);
 	}
 	
 	public List<LocationResponse> findAll(){

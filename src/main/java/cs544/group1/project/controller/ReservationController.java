@@ -24,8 +24,8 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @PostMapping()
-    public void createReservation(@RequestBody ReservationRequest reservationRequest) {
-    	reservationService.save(reservationRequest);
+    public ReservationResponse createReservation(@RequestBody ReservationRequest reservationRequest) {
+    	return reservationService.save(reservationRequest);
     }
     
     @GetMapping()

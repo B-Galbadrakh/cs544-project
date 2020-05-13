@@ -4,18 +4,16 @@ import cs544.group1.project.domain.Reservation;
 import cs544.group1.project.domain.User;
 import cs544.group1.project.dto.ReservationRequest;
 import cs544.group1.project.dto.ReservationResponse;
-
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 @Service
 public interface ReservationService {
 
 	
-	public void save(ReservationRequest reservationRequest);
+	public ReservationResponse save(ReservationRequest reservationRequest);
 	
 	public List<ReservationResponse> findAll();
 	
