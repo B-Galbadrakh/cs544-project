@@ -1,6 +1,10 @@
 package cs544.group1.project.service;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;;
@@ -11,16 +15,37 @@ public class EmailService {
 	@Autowired
 	private JavaMailSender javaMailSender;
 
-	public EmailService() {
-	}
 
-	public void sendMail(String from, String toEmail, String subject, String message) {
-		
-		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setTo(from, toEmail);
-		msg.setSubject(subject);
-		msg.setText(message);
-		javaMailSender.send(msg);
-
+	
+	public static int noOfQuickServiceThreads = 20;
+	
+	
+	public EmailService() {}
+	
+	
+	private ScheduledExecutorService quickService = Executors.newScheduledThreadPool(noOfQuickServiceThreads); // Creates a thread pool that reuses fixed number of threads(as specified by noOfThreads in this case).
+	
+	
+	public void sendMail(String from, String toEmail, String subject, String message) throws MailException,RuntimeException {
+	   SimpleMailMessage msg = new SimpleMailMessage();
+	   msg.setTo(from, toEmail);
+	   msg.setSubject(subject);
+	   msg.setText(message);
+	   
+	   quickService.submit(new Runnable() {
+	      @Override
+	      public void run() {
+	         try{
+	            javaMailSender.send(msg);
+	         }
+	         catch(Exception e){
+	        	 System.out.println(e);
+	         }
+	      }
+	   });
 	}
+	
+	
+	
+	
 }

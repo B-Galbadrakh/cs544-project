@@ -18,7 +18,6 @@ public class Reservation {
 	private ReservationStatus status;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@CreationTimestamp
 	private Date reservationDate;
 
 	@ManyToOne
