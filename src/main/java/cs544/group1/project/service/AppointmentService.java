@@ -22,4 +22,6 @@ public interface AppointmentService {
 	
 	public void delete(int AppointmentId);
 
+	public List<AppointmentResponse> convertEntityListToResponsePage(List<Appointment> userList);
+
 }

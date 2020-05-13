@@ -9,6 +9,7 @@ import cs544.group1.project.dto.UserDTO;
 import cs544.group1.project.repo.AppointmentRepo;
 import cs544.group1.project.service.AppointmentService;
 import cs544.group1.project.service.UserService;
+import cs544.group1.project.service.mappers.BaseMapper;
 import cs544.group1.project.util.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -32,6 +34,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	CustomObjectMapper objectMapper;
+
+	@Autowired
+	protected BaseMapper<Appointment, AppointmentResponse> responseMapper;
 	
 	public void save(AppointmentRequest appointmentRequest) {
 
@@ -96,6 +101,18 @@ public class AppointmentServiceImpl implements AppointmentService {
     		return;
     	}
     	apointmentRepository.deleteById(AppointmentId);
+	}
+
+	@Override
+	public List<AppointmentResponse> convertEntityListToResponsePage(List<Appointment> appointmentList) {
+		if(null == appointmentList){
+			return null;
+		}
+		else {
+			return appointmentList.stream()
+					.map(responseMapper::map)
+					.collect(Collectors.toList());
+		}
 	}
 
 }
