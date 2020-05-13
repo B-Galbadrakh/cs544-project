@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/locations")
-public class LocationController {
+public class LocationController extends ProjectDefaultController{
 
     @Autowired
     private LocationService locationService;

@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import cs544.group1.project.service.EmailService;
+import cs544.group1.project.service.ReservationService;
 
 @RestController
 public class EmailController {
@@ -30,14 +31,22 @@ public class EmailController {
 	@Autowired
     private EmailService emailService;
 
+    
     @GetMapping(value = "/sendmail")
-    public String mailSender() {
-    	
-    	System.out.println("function");
-        emailService.sendMail("tmcheckersystem@gmail.com", "b.galbadrah12@gmail.com", "Test Subject", "Test mail");
-        System.out.println("Email sent");
-        
-        
-        return "emailsent";
-    }
+	public String mailSender() {
+	   
+		System.out.println("function");
+		emailService.sendMail("tmcheckersystem@gmail.com", "b.galbadrah12@gmail.com", "Test Subject", "Test mail");
+		System.out.println("Email sent");
+		try {
+			emailService.sendMail("tmcheckersystem@gmail.com", "b.galbadrah12@gmail.com", "Test Subject", "Test mail");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "Mail not send";
+		}
+		return "emailsent";
+	}
+    
+    
+	
 }

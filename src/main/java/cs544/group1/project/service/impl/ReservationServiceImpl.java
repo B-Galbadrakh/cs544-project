@@ -3,6 +3,7 @@ package cs544.group1.project.service.impl;
 import cs544.group1.project.domain.Appointment;
 import cs544.group1.project.domain.Reservation;
 import cs544.group1.project.domain.User;
+import cs544.group1.project.dto.AppointmentResponse;
 import cs544.group1.project.dto.ReservationRequest;
 import cs544.group1.project.dto.ReservationResponse;
 import cs544.group1.project.dto.UserDTO;
@@ -13,6 +14,11 @@ import cs544.group1.project.service.mappers.ReservationResponseMapper;
 import cs544.group1.project.util.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Date;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,6 +47,9 @@ public class ReservationServiceImpl implements ReservationService {
 		reservation.setStatus(reservationRequest.getStatus());
 		
 		UserDTO userDTO = userService.findById(reservationRequest.getConsumer_id());
+		System.out.println(userDTO.getFirstName());
+		
+		
 		User user = objectMapper.getUserEntityFromDTO(userDTO);
 		Appointment appointment = appointmentService.findById(reservationRequest.getAppointment_id());
 		
@@ -107,4 +116,7 @@ public class ReservationServiceImpl implements ReservationService {
 		return responseMapper.map(reservation);
 	}
 
+	public List<User> findAcceptedReservationsByDate(LocalDate date) {
+		return reservationRepository.findAcceptedReservationsByAppointmentDate(date);
+	}
 }
