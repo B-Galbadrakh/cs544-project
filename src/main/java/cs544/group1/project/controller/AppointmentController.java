@@ -17,9 +17,9 @@ public class AppointmentController extends ProjectDefaultController {
     private AppointmentService appointmentService;
 
     @PostMapping()
-    public void createAppointment(@RequestBody AppointmentRequest appointmentRequest) {
+    public AppointmentResponse createAppointment(@RequestBody AppointmentRequest appointmentRequest) {
 
-    	appointmentService.save(appointmentRequest);
+    	return appointmentService.save(appointmentRequest);
     }
     
     @GetMapping()
