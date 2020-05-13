@@ -1,36 +1,28 @@
-package cs544.group1.project.domain;
+package cs544.group1.project.dto;
 
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-
-import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
-@Entity
-public class Location {
+public class LocationResponse implements Serializable {
 
-	@Id
-	@GeneratedValue
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int id;
-
+	
 	private String street;
+	
 	private String city;
 	private String state;
 	private String zipcode;
 	private String buildNo;
 	private String roomNo;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@CreationTimestamp
+	
 	private Date createdDate;
-
-	@Temporal(TemporalType.TIMESTAMP)
-	@UpdateTimestamp
+	
 	private Date updatedDate;
-
-	public Location() {
-
-	}
 
 	public int getId() {
 		return id;
@@ -104,9 +96,5 @@ public class Location {
 		this.updatedDate = updatedDate;
 	}
 	
-	
-	
-	
-	
-
+    
 }

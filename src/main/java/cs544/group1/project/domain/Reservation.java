@@ -1,51 +1,47 @@
 package cs544.group1.project.domain;
 
-import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import javax.persistence.*;
+import java.util.Date;
 
 
 @Entity
 public class Reservation {
-	
+
 	@Id
 	@GeneratedValue
 	private int id;
-	
+
 	@Enumerated(EnumType.STRING)
-	private ReservationStatus reservationStatus;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date reservationDate;
-	
-	@ManyToOne
-	private User consumer;
-	
+	private ReservationStatus status;
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
-    private Date createdDate;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @UpdateTimestamp
-    private Date updatedDate;
-    
-    @ManyToOne
-    private Appointment appointment;
-    
-    
-    
-    public Reservation() {
-    }
+	private Date reservationDate;
+
+	@ManyToOne
+	@JoinColumn(name="consumer_id")
+	private User consumer;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
+	private Date createdDate;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@UpdateTimestamp
+	private Date updatedDate;
+
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="appointment_id")
+	private Appointment appointment;
+
+
+
+	public Reservation() {
+
+	}
 
 
 
@@ -61,14 +57,14 @@ public class Reservation {
 
 
 
-	public ReservationStatus getReservationStatus() {
-		return reservationStatus;
+	public ReservationStatus getStatus() {
+		return status;
 	}
 
 
 
-	public void setReservationStatus(ReservationStatus reservationStatus) {
-		this.reservationStatus = reservationStatus;
+	public void setStatus(ReservationStatus status) {
+		this.status = status;
 	}
 
 

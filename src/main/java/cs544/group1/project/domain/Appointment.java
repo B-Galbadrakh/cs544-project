@@ -1,59 +1,45 @@
 package cs544.group1.project.domain;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Column;
+import javax.persistence.*;
+import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Appointment {
-	
+
 	@Id
 	@GeneratedValue
 	private int id;
-	
+
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date;
-	
-	
+	private Date appointmentDate;
+
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
-    private Date createdDate;
-    
-    @Temporal(TemporalType.TIMESTAMP)
-    @UpdateTimestamp
-    private Date updatedDate;
-    
-    @ManyToOne
-    private User user;
-    
-    @OneToMany
-    private List<Reservation> reservations;
-    
-    
-    @ManyToOne
-    private Location location;
-    
-    
-    
-    public Appointment() {
-    }
+	private Date createdDate;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@UpdateTimestamp
+	private Date updatedDate;
 
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
+
+	@OneToMany(mappedBy="appointment")
+	private List<Reservation> reservations;
+
+	@ManyToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="location_id")
+	private Location location;
+
+	public Appointment() {
+
+	}
 
 	public int getId() {
 		return id;
@@ -67,13 +53,14 @@ public class Appointment {
 
 
 
-	public Date getDate() {
-		return date;
+	public Date getAppointmentDate() {
+		return appointmentDate;
 	}
 
 
-	public void setDate(Date appointmentDate) {
-		this.date = appointmentDate;
+
+	public void setAppointmentDate(Date appointmentDate) {
+		this.appointmentDate = appointmentDate;
 	}
 
 
@@ -112,16 +99,25 @@ public class Appointment {
 		this.user = user;
 	}
 
-
-
 	public List<Reservation> getReservations() {
 		return reservations;
 	}
 
-
-
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+
+	public void addReservation(Reservation reservation) {
+		reservation.setAppointment(this);
+		this.reservations.add(reservation);
+	}
+
+	public Location getLocation() {
+		return location;
+	}
+
+	public void setLocation(Location location) {
+		this.location = location;
 	};
 
 }
