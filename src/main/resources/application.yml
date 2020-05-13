@@ -37,4 +37,4 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-customParameter: '0 * * * * *'
+scheduledEmailCron: '0 0/2 * * * *'
