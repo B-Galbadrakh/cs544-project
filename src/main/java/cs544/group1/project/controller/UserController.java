@@ -33,8 +33,8 @@ public class UserController extends ProjectDefaultController{
     private JwtTokenUtil jwtTokenUtil;
 
     @PostMapping()
-    public void createUser(@Valid @RequestBody UserDTO user) throws CustomError {
-        userService.save(user);
+    public UserDTO createUser(@Valid @RequestBody UserDTO user) throws CustomError {
+        return userService.save(user);
     }
 
     @PostMapping("/login")
@@ -75,9 +75,9 @@ public class UserController extends ProjectDefaultController{
     	return userService.findById(userid);
     }
     
-    @PostMapping("/{userid}")
-    public UserDTO updateById(@PathVariable int userid, @RequestBody Map<String, String>password) {
-    	return userService.update(userid, password.get("password"));
+    @PutMapping("/{userid}")
+    public UserDTO updateById(@PathVariable int userid, @RequestBody UserDTO user) throws CustomError {
+    	return userService.update(userid,user);
     }
     
     @DeleteMapping("/{userid}")

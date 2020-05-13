@@ -12,7 +12,7 @@ public class ScheduledService {
 	
 	
 //	@Scheduled(fixedRate = 10000)
-	@Scheduled(cron="0 0 0 ? * * *")		//Schedule for 00:00
+	@Scheduled(cron="0 0 0 ? * *")		//Schedule for 00:00
 	public void sendEmailToComingAppointment() {
 		
 		String from = "tmcheckersystem@gmail.com";
