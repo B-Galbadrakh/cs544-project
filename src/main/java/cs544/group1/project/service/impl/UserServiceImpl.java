@@ -110,7 +110,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	public UserDTO update(int userId, String password) {
+	public UserDTO update(int userId, UserDTO userDTO) throws CustomError {
 		Optional<User> user = userRepository.findById(userId);
 		User oldUser = user.get();
 		if(oldUser == null){
