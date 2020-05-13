@@ -130,6 +130,11 @@ public class User {
 	public void setAppointments(List<Appointment> appointments) {
 		this.appointments = appointments;
 	}
+	
+	public void addAppointment(Appointment appointment) {
+		appointment.setUser(this);
+		this.appointments.add(appointment);
+	}
 
 	public List<Reservation> getReservations() {
 		return reservations;
@@ -139,6 +144,9 @@ public class User {
 		this.reservations = reservations;
 	}
     
-    
+	public void addReservation(Reservation reservation) {
+		reservation.setConsumer(this);
+		this.reservations.add(reservation);
+	}
 
 }

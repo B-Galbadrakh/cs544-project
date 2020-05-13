@@ -46,6 +46,7 @@ public class AppointmentService {
 			appointmentResponse.setCreatedDate(app.getCreatedDate());
 			appointmentResponse.setId(app.getId());
 			appointmentResponse.setUpdatedDate(app.getUpdatedDate());
+			appointmentResponses.add(appointmentResponse);
 		}
 		return appointmentResponses;
 	}

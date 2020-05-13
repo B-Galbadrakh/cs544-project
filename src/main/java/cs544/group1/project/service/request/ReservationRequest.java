@@ -8,23 +8,37 @@ import javax.persistence.*;
 import java.util.Date;
 
 public class ReservationRequest {
-    @Enumerated(EnumType.STRING)
+
     private ReservationStatus status;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date reservationDate;
+    private int consumer_id;
 
-    @ManyToOne
-    @JoinColumn(name="consumer_id")
-    private User consumer;
+    private int appointment_id;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+	public ReservationStatus getStatus() {
+		return status;
+	}
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date updatedDate;
+	public void setStatus(ReservationStatus status) {
+		this.status = status;
+	}
 
-    @ManyToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name="appointment_id")
-    private Appointment appointment;
+
+	public int getConsumer_id() {
+		return consumer_id;
+	}
+
+	public void setConsumer_id(int consumer_id) {
+		this.consumer_id = consumer_id;
+	}
+
+	public int getAppointment_id() {
+		return appointment_id;
+	}
+
+	public void setAppointment_id(int appointment_id) {
+		this.appointment_id = appointment_id;
+	}
+    
+    
 }

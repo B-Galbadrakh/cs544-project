@@ -111,16 +111,17 @@ public class Appointment {
 		this.user = user;
 	}
 
-
-
 	public List<Reservation> getReservations() {
 		return reservations;
 	}
 
-
-
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+	
+	public void addReservation(Reservation reservation) {
+		reservation.setAppointment(this);
+		this.reservations.add(reservation);
 	}
 
 	public Location getLocation() {

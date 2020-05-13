@@ -7,9 +7,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import cs544.group1.project.domain.Appointment;
+import cs544.group1.project.domain.Location;
 import cs544.group1.project.domain.Reservation;
 import cs544.group1.project.domain.User;
 import cs544.group1.project.repo.ReservationRepo;
+import cs544.group1.project.service.request.ReservationRequest;
 import cs544.group1.project.service.response.ReservationResponse;
 import cs544.group1.project.service.response.UserResponse;
 
@@ -19,8 +22,23 @@ public class ReservationService {
 	@Autowired
 	ReservationRepo reservationRepository;
 	
-	public void save(Reservation Reservation) {
-		reservationRepository.save(Reservation);
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	AppointmentService appointmentService;
+	
+	public void save(ReservationRequest reservationRequest) {
+		Reservation reservation = new Reservation();
+		reservation.setStatus(reservationRequest.getStatus());
+		
+		User user = userService.findById(reservationRequest.getConsumer_id());
+		Appointment appointment = appointmentService.findById(reservationRequest.getAppointment_id());
+		
+		reservation.setConsumer(user);
+		reservation.setAppointment(appointment);
+		
+		reservationRepository.save(reservation);
 	}
 	
 	public List<ReservationResponse> findAll(){
@@ -33,6 +51,7 @@ public class ReservationService {
 			reservationResponse.setReservationDate(res.getReservationDate());
 			reservationResponse.setStatus(res.getStatus());
 			reservationResponse.setUpdatedDate(res.getUpdatedDate());
+			reservationResponses.add(reservationResponse);
 		}
 		return reservationResponses;
 	}

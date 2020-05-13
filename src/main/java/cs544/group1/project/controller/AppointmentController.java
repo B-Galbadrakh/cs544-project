@@ -18,12 +18,6 @@ public class AppointmentController {
     @Autowired
     private AppointmentService appointmentService;
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private LocationService locationService;
-
     @PostMapping()
     public void createAppointment(@RequestBody AppointmentRequest appointmentRequest) {
 

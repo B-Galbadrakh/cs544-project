@@ -2,6 +2,7 @@ package cs544.group1.project.controller;
 
 import cs544.group1.project.domain.Reservation;
 import cs544.group1.project.service.ReservationService;
+import cs544.group1.project.service.request.ReservationRequest;
 import cs544.group1.project.service.response.ReservationResponse;
 
 import java.util.List;
@@ -23,8 +24,8 @@ public class ReservationController {
     private ReservationService reservationService;
 
     @PostMapping()
-    public void createReservation(@RequestBody Reservation reservation) {
-    	reservationService.save(reservation);
+    public void createReservation(@RequestBody ReservationRequest reservationRequest) {
+    	reservationService.save(reservationRequest);
     }
     
     @GetMapping()
