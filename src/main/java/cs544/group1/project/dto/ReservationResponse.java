@@ -3,9 +3,10 @@ package cs544.group1.project.dto;
 
 import cs544.group1.project.domain.ReservationStatus;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ReservationResponse {
+public class ReservationResponse implements Serializable {
 
 	private int id;
 	

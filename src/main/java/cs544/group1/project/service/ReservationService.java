@@ -23,12 +23,16 @@ public interface ReservationService {
 	
 	public Reservation findById(int reservationId);
 	
-	public Reservation update(int reservationId, Reservation newReservation);
+	public ReservationResponse update(Reservation newReservation);
 	
 	public void delete(int ReservationId);
 	
 	public List<User> findAcceptedReservationsByDate(LocalDate date);
 	
 	
+
+	public List<ReservationResponse> convertEntityListToResponsePage(List<Reservation> reservationList);
+
+	public ReservationResponse convertEntityToResponse(Reservation reservation);
 
 }

@@ -30,9 +30,9 @@ public class LocationController extends ProjectDefaultController{
     	return locationService.findLocationResponseById(locationid);
     }
     
-    @PostMapping("/{locationid}")
-    public Location updateById(@PathVariable int Locationid, @RequestBody Location location) {
-    	return locationService.update(Locationid, location);
+    @PutMapping()
+    public LocationResponse updateById(@RequestBody Location location) {
+    	return locationService.update(location);
     }
     
     @DeleteMapping("/{locationid}")

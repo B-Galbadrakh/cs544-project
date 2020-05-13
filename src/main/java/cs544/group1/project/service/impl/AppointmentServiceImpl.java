@@ -9,14 +9,15 @@ import cs544.group1.project.dto.UserDTO;
 import cs544.group1.project.repo.AppointmentRepo;
 import cs544.group1.project.service.AppointmentService;
 import cs544.group1.project.service.UserService;
+import cs544.group1.project.service.mappers.AppointmentResponseMapper;
 import cs544.group1.project.util.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AppointmentServiceImpl implements AppointmentService {
@@ -32,6 +33,9 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	CustomObjectMapper objectMapper;
+
+	@Autowired
+	protected AppointmentResponseMapper responseMapper;
 	
 	public void save(AppointmentRequest appointmentRequest) {
 
@@ -42,33 +46,18 @@ public class AppointmentServiceImpl implements AppointmentService {
 		appointment.setUser(user);
 		Location location = locationService.findById(appointmentRequest.getLocationId());
 		appointment.setLocation(location);
-		//appointmentService.save(appointment);
 		apointmentRepository.save(appointment);
 	}
 	
 	public List<AppointmentResponse> findAll(){
 		List<Appointment> appointments = apointmentRepository.findAll();
-		List<AppointmentResponse> appointmentResponses = new ArrayList<>();
-		for(Appointment app: appointments) {
-			AppointmentResponse appointmentResponse = new AppointmentResponse();
-			appointmentResponse.setAppointmentDate(app.getAppointmentDate());
-			appointmentResponse.setCreatedDate(app.getCreatedDate());
-			appointmentResponse.setId(app.getId());
-			appointmentResponse.setUpdatedDate(app.getUpdatedDate());
-			appointmentResponses.add(appointmentResponse);
-		}
-		return appointmentResponses;
+		return convertEntityListToResponsePage(appointments);
 	}
 	
 	public AppointmentResponse findAppointmentResponseById(int appointmentid) {
 		Optional<Appointment> appointment = apointmentRepository.findById(appointmentid);
-		AppointmentResponse appointmentResponse = new AppointmentResponse();
 		if(appointment.isPresent()) {
-			appointmentResponse.setAppointmentDate(appointment.get().getAppointmentDate());
-			appointmentResponse.setCreatedDate(appointment.get().getCreatedDate());
-			appointmentResponse.setId(appointment.get().getId());
-			appointmentResponse.setUpdatedDate(appointment.get().getUpdatedDate());
-		 return appointmentResponse;
+			return convertEntityToResponse(appointment.get());
 		}
 		else {
 			return null;
@@ -80,14 +69,15 @@ public class AppointmentServiceImpl implements AppointmentService {
 		return Appointment.isPresent() ? Appointment.get(): null; 
 	}
 	
-	public Appointment update(int AppointmentId, Appointment newAppointment) {
-		Appointment oldAppointment = findById(AppointmentId);
+	public AppointmentResponse update(Appointment newAppointment) {
+		Appointment oldAppointment = findById(newAppointment.getId());
     	if(oldAppointment == null){
     		return null;
     	}
     	oldAppointment.setAppointmentDate(newAppointment.getAppointmentDate());
     	oldAppointment.setUpdatedDate(new Date());
-    	return apointmentRepository.save(oldAppointment);
+    	apointmentRepository.save(oldAppointment);
+    	return convertEntityToResponse(oldAppointment);
 	}
 	
 	public void delete(int AppointmentId) {
@@ -96,6 +86,23 @@ public class AppointmentServiceImpl implements AppointmentService {
     		return;
     	}
     	apointmentRepository.deleteById(AppointmentId);
+	}
+
+	@Override
+	public List<AppointmentResponse> convertEntityListToResponsePage(List<Appointment> appointmentList) {
+		if(null == appointmentList){
+			return null;
+		}
+		else {
+			return appointmentList.stream()
+					.map(responseMapper::map)
+					.collect(Collectors.toList());
+		}
+	}
+
+	@Override
+	public AppointmentResponse convertEntityToResponse(Appointment appointment) {
+		return responseMapper.map(appointment);
 	}
 
 }

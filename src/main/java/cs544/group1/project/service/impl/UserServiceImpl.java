@@ -5,6 +5,7 @@ import cs544.group1.project.domain.UserRole;
 import cs544.group1.project.dto.UserDTO;
 import cs544.group1.project.repo.UserRepository;
 import cs544.group1.project.service.UserService;
+import cs544.group1.project.service.mappers.UserResponseMapper;
 import cs544.group1.project.util.CustomError;
 import cs544.group1.project.util.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	CustomObjectMapper objectMapper;
+
+	@Autowired
+	protected UserResponseMapper responseMapper;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -84,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
 	public List<UserDTO> findAll() {
 		List<User> users = userRepository.findAll();
-		List<UserDTO> collect = users.stream().map(objectMapper::getUserDTOFromEntity).collect(Collectors.toList());
+		List<UserDTO> collect = convertEntityListToResponse(users);
 		return collect;
 	}
 
@@ -93,7 +97,20 @@ public class UserServiceImpl implements UserService {
 		return user.map(objectMapper::getUserDTOFromEntity).get();
 	}
 
-	public UserDTO update(int userId, UserDTO userDTO) throws CustomError {
+
+	@Override
+	public List<UserDTO> convertEntityListToResponse(List<User> userList) {
+		if(null == userList){
+			return null;
+		}
+		else {
+			return userList.stream()
+					.map(responseMapper::map)
+					.collect(Collectors.toList());
+		}
+	}
+
+	public UserDTO update(int userId, String password) {
 		Optional<User> user = userRepository.findById(userId);
 		User oldUser = user.get();
 		if(oldUser == null){

@@ -14,4 +14,5 @@ public interface UserService extends UserDetailsService{
     UserDTO update(int userId,UserDTO user) throws CustomError;
     void delete(int userId);
     UserDTO findById(int userId);
+    public List<UserDTO> convertEntityListToResponse(List<User> userList);
 }

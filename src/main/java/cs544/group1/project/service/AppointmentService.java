@@ -18,8 +18,12 @@ public interface AppointmentService {
 	
 	public Appointment findById(int Appointmentid) ;
 	
-	public Appointment update(int AppointmentId, Appointment newAppointment);
+	public AppointmentResponse update(Appointment newAppointment);
 	
 	public void delete(int AppointmentId);
+
+	public List<AppointmentResponse> convertEntityListToResponsePage(List<Appointment> userList);
+
+	public AppointmentResponse convertEntityToResponse(Appointment appointment);
 
 }
