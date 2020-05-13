@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 		{
 			List<GrantedAuthority> authorities = new ArrayList<>();
 			User user = users.get(0);
-			authorities.add(new SimpleGrantedAuthority("ADMIN"));
+			//authorities.add(new SimpleGrantedAuthority("ADMIN"));
 			if(user.getRole() != null && !user.getRole().isEmpty())
 			{
 				for(UserRole role : user.getRole())
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByEmail(email).get(0);
 	}
 
-	public User save(UserDTO userDTO) throws CustomError {
+	public UserDTO save(UserDTO userDTO) throws CustomError {
 		List<User> tempUser = userRepository.findByEmail(userDTO.getEmail());
 		if(tempUser != null && tempUser.size() > 0)
 		{
@@ -76,7 +76,10 @@ public class UserServiceImpl implements UserService {
 		User user = objectMapper.getUserEntityFromDTO(userDTO);
 
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		return userRepository.save(user);
+		User newUser = userRepository.save(user);
+		userDTO.setPassword(null);
+		userDTO.setId(newUser.getId());
+		return userDTO;
 	}
 
 	public List<UserDTO> findAll() {
@@ -90,14 +93,40 @@ public class UserServiceImpl implements UserService {
 		return user.map(objectMapper::getUserDTOFromEntity).get();
 	}
 
-	public UserDTO update(int userId, String password) {
+	public UserDTO update(int userId, UserDTO userDTO) throws CustomError {
 		Optional<User> user = userRepository.findById(userId);
 		User oldUser = user.get();
 		if(oldUser == null){
 			return null;
 		}
-		oldUser.setPassword(password);
-		return objectMapper.getUserDTOFromEntity(userRepository.save(oldUser));
+		if(userDTO.getFirstName() != null && userDTO.getFirstName().length() > 0)
+		{
+			oldUser.setFirstName(userDTO.getFirstName());
+		}
+		if(userDTO.getLastName() != null && userDTO.getLastName().length() > 0)
+		{
+			oldUser.setLastName(userDTO.getLastName());
+		}
+		if(userDTO.getEmail() != null && userDTO.getEmail().length() > 0)
+		{
+			List<User> usrLst = userRepository.findByEmail(userDTO.getEmail());
+			if(usrLst.get(0).getId() != userId)
+			{
+				throw new CustomError(400,"Email already used by another user",null);
+			}
+			oldUser.setEmail(userDTO.getEmail());
+		}
+		if((userDTO.getGender()+"").length() > 0)
+		{
+			oldUser.setGender(userDTO.getGender());
+		}
+		if(userDTO.getPassword() != null && userDTO.getPassword().length() > 0)
+		{
+			oldUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		}
+		UserDTO rslt = objectMapper.getUserDTOFromEntity(userRepository.save(oldUser));
+		rslt.setPassword(null);
+		return rslt;
 	}
 
 	public void delete(int userId) {

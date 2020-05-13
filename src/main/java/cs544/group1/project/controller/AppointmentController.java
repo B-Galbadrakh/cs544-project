@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/appointments")
-public class AppointmentController {
+public class AppointmentController extends ProjectDefaultController {
 
     @Autowired
     private AppointmentService appointmentService;

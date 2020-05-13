@@ -1,4 +1,5 @@
 package cs544.group1.project.config;
+import cs544.group1.project.domain.UserRoles;
 import cs544.group1.project.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -50,12 +51,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        // We don't need CSRF for this example
         httpSecurity.csrf().disable()
                 // dont authenticate this particular request
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/users").permitAll()
-                .antMatchers(HttpMethod.POST,"/users/login").permitAll().
+                .antMatchers(HttpMethod.POST,"/users/login").permitAll()
+                .antMatchers("/appointments/**").hasAnyAuthority(UserRoles.ADMIN.name(),UserRoles.CHECKER.name()).
                         anyRequest().authenticated().and().
                         exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
