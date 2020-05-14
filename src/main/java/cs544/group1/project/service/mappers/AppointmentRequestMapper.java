@@ -28,7 +28,7 @@ public class AppointmentRequestMapper {
         UserDTO userDTO = userService.findById(appointmentRequest.getUserId());
         User user = objectMapper.getUserEntityFromDTO(userDTO);
         Appointment appointment = new Appointment();
-        appointment.setAppointmentDate(appointmentRequest.getAppointmentDate());
+        appointment.setDate(appointmentRequest.getDate());
         appointment.setUser(user);
         Location location = locationService.findById(appointmentRequest.getLocationId());
         appointment.setLocation(location);

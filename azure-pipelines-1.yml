@@ -13,11 +13,16 @@ steps:
 
 
 
-- task: Maven@3
+- task: VisualStudioTestPlatformInstaller@1
+  displayName: 'Visual Studio Test Platform Installer'
   inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
+    versionSelector: latestStable
+
+- task: VSTest@2
+  displayName: 'Test run for Test plans'
+  inputs:
+    testAssemblyVer2: |
+     **/*....dll
+     !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)/Tests'
+  continueOnError: true

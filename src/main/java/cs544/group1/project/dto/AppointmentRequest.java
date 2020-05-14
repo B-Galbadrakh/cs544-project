@@ -6,18 +6,19 @@ import java.util.Date;
 public class AppointmentRequest {
 
     @NotBlank(message = "appointmentDate is mandatory")
-    private Date appointmentDate;
+    private Date date;
+  
     @NotBlank(message = "userId is mandatory")
     private int userId;
     @NotBlank(message = "locationId is mandatory")
     private int locationId;
 
-    public Date getAppointmentDate() {
-        return appointmentDate;
+    public Date getDate() {
+        return date;
     }
 
-    public void setAppointmentDate(Date appointmentDate) {
-        this.appointmentDate = appointmentDate;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public int getUserId() {
