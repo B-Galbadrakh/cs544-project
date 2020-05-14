@@ -7,12 +7,15 @@ import cs544.group1.project.service.LocationService;
 import cs544.group1.project.service.mappers.LocationResponseMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
+@Transactional
 public class LocationServiceImpl implements LocationService {
 	
 	@Autowired
@@ -26,12 +29,14 @@ public class LocationServiceImpl implements LocationService {
 		locationRepository.save(location);
 		return convertEntityToResponse(location);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public List<LocationResponse> findAll(){
 		List<Location> locations = locationRepository.findAll();
 		return convertEntityListToResponse(locations);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public LocationResponse findLocationResponseById(int locationid) {
 		Optional<Location> location = locationRepository.findById(locationid);
 		LocationResponse locationResponse = new LocationResponse();
@@ -43,7 +48,8 @@ public class LocationServiceImpl implements LocationService {
 			return null;
 		}
 	}
-	
+
+	@Transactional(readOnly = true)
 	public Location findById(int locationid) {
 		Optional<Location> location = locationRepository.findById(locationid);
 		return location.isPresent() ? location.get() : null;
@@ -73,6 +79,7 @@ public class LocationServiceImpl implements LocationService {
 	}
 
 	@Override
+	@Transactional(propagation= Propagation.SUPPORTS)
 	public List<LocationResponse> convertEntityListToResponse(List<Location> locationList) {
 		if(null == locationList){
 			return null;
@@ -85,6 +92,7 @@ public class LocationServiceImpl implements LocationService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public LocationResponse convertEntityToResponse(Location location) {
 		return responseMapper.map(location);
 	}

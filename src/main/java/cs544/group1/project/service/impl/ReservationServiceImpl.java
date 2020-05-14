@@ -15,6 +15,8 @@ import cs544.group1.project.service.mappers.ReservationResponseMapper;
 import cs544.group1.project.util.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class ReservationServiceImpl implements ReservationService {
 	
 	@Autowired
@@ -62,12 +65,14 @@ public class ReservationServiceImpl implements ReservationService {
 		
 		return convertEntityToResponse(reservation);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public List<ReservationResponse> findAll(){
 		List<Reservation> reservations = reservationRepository.findAll();
 		return convertEntityListToResponsePage(reservations);
 	}
-	
+
+	@Transactional(readOnly = true)
 	public ReservationResponse findReservationResponseById(int reservationid) {
 		Optional<Reservation> reservation = reservationRepository.findById(reservationid);
 
@@ -78,7 +83,8 @@ public class ReservationServiceImpl implements ReservationService {
 			return null;
 		}
 	}
-	
+
+	@Transactional(readOnly = true)
 	public Reservation findById(int reservationId) {
 		Optional<Reservation> Reservation = reservationRepository.findById(reservationId);
 		return Reservation.isPresent() ? Reservation.get(): null; 
@@ -114,6 +120,7 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<ReservationResponse> convertEntityListToResponsePage(List<Reservation> reservationList) {
 		if(null == reservationList){
 			return null;
@@ -126,6 +133,7 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 
 	@Override
+	@Transactional(propagation= Propagation.SUPPORTS)
 	public ReservationResponse convertEntityToResponse(Reservation reservation) {
 		return responseMapper.map(reservation);
 	}
