@@ -17,4 +17,6 @@ public interface ReservationRepo extends JpaRepository<Reservation, Integer> {
 	
 	@org.springframework.data.jpa.repository.Query(value = "SELECT consumer FROM Reservation re WHERE date(re.appointment.date) >= date(:date) AND date(re.appointment.date) <= date(:date)  AND re.status = 'ACCEPTED'")
 	public List<User> findAcceptedReservationsByAppointmentDate(@Param("date") LocalDate date);
+	
+	
 }
