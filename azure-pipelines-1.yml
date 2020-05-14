@@ -13,6 +13,11 @@ steps:
 
 
 
+- task: VisualStudioTestPlatformInstaller@1
+  displayName: 'Visual Studio Test Platform Installer'
+  inputs:
+    versionSelector: latestStable
+
 - task: VSTest@2
   displayName: 'Test run for Test plans'
   inputs:
@@ -20,12 +25,4 @@ steps:
      **/*....dll
      !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)/Tests'
-    testFiltercriteria: 'TestCategory=AppA'
-    vsTestVersion: toolsInstaller
-    runInParallel: true
-    batchingBasedOnAgentsOption: customBatchSize
-    customBatchSizeValue: 10000
-    testRunTitle: 'Test Run Name'
-    diagnosticsEnabled: false
-    rerunFailedTests: true
   continueOnError: true
