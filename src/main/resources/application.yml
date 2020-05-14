@@ -34,3 +34,5 @@ spring:
         dialect: org.hibernate.dialect.MySQL8Dialect
 scheduledEmailCron: '0 0/2 * * * *'
 emailAddress: tmcheckersystem@gmail.com
+
+
