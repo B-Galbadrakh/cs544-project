@@ -15,7 +15,7 @@ public class Appointment {
 	private int id;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date date;
+	private Date appointmentDate;
 
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -54,13 +54,13 @@ public class Appointment {
 
 
 	public Date getAppointmentDate() {
-		return date;
+		return appointmentDate;
 	}
 
 
 
 	public void setAppointmentDate(Date appointmentDate) {
-		this.date = appointmentDate;
+		this.appointmentDate = appointmentDate;
 	}
 
 

@@ -50,7 +50,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	@Transactional(readOnly = true)
 	public List<AppointmentResponse> findAll(){
 		List<Appointment> appointments = apointmentRepository.findAll();
-		return convertEntityListToResponsePage(appointments);
+		return convertEntityListToResponse(appointments);
 	}
 	@Transactional(readOnly = true)
 	public AppointmentResponse findAppointmentResponseById(int appointmentid) {
@@ -89,7 +89,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Override
 	@Transactional(propagation=Propagation.SUPPORTS)
-	public List<AppointmentResponse> convertEntityListToResponsePage(List<Appointment> appointmentList) {
+	public List<AppointmentResponse> convertEntityListToResponse(List<Appointment> appointmentList) {
 		if(null == appointmentList){
 			return null;
 		}

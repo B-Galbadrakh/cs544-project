@@ -22,7 +22,7 @@ public interface AppointmentService {
 	
 	public void delete(int AppointmentId);
 
-	public List<AppointmentResponse> convertEntityListToResponsePage(List<Appointment> userList);
+	public List<AppointmentResponse> convertEntityListToResponse(List<Appointment> userList);
 
 	public AppointmentResponse convertEntityToResponse(Appointment appointment);
 

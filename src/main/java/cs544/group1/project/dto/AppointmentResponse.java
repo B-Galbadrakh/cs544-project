@@ -48,7 +48,4 @@ public class AppointmentResponse implements Serializable {
 	public void setUpdatedDate(Date updatedDate) {
 		this.updatedDate = updatedDate;
 	}
-    
-    
-
 }
