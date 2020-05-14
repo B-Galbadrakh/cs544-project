@@ -90,13 +90,13 @@ public class ReservationServiceImpl implements ReservationService {
 		return Reservation.isPresent() ? Reservation.get(): null; 
 	}
 	
-	public ReservationResponse update(Reservation newReservation) {
-		Reservation oldReservation = findById(newReservation.getId());
+	public ReservationResponse update(int reservationId, Reservation newReservation) {
+		Reservation oldReservation = findById(reservationId);
     	if(oldReservation == null){
     		return null;
     	}
     	oldReservation.setStatus(newReservation.getStatus());
-    	oldReservation.setReservationDate(newReservation.getReservationDate());
+//    	oldReservation.setReservationDate(newReservation.getReservationDate());
     	reservationRepository.save(oldReservation);
     	
     	if(oldReservation.getStatus().equals(ReservationStatus.ACCEPTED)) {

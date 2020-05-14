@@ -12,7 +12,7 @@ public class ReservationResponse implements Serializable {
 	
 	private ReservationStatus status;
 	
-	private Date reservationDate;
+//	private Date reservationDate;
 	
     private Date createdDate;
     
@@ -34,13 +34,13 @@ public class ReservationResponse implements Serializable {
 		this.status = status;
 	}
 
-	public Date getReservationDate() {
-		return reservationDate;
-	}
-
-	public void setReservationDate(Date reservationDate) {
-		this.reservationDate = reservationDate;
-	}
+//	public Date getReservationDate() {
+//		return reservationDate;
+//	}
+//
+//	public void setReservationDate(Date reservationDate) {
+//		this.reservationDate = reservationDate;
+//	}
 
 	public Date getCreatedDate() {
 		return createdDate;

@@ -21,7 +21,7 @@ public interface ReservationService {
 	
 	public Reservation findById(int reservationId);
 	
-	public ReservationResponse update(Reservation newReservation);
+	public ReservationResponse update(int reservationId, Reservation newReservation);
 	
 	public void delete(int ReservationId);
 	
