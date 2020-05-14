@@ -32,7 +32,7 @@ public class Reservation {
 	@UpdateTimestamp
 	private Date updatedDate;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="appointment_id")
 	private Appointment appointment;
 
