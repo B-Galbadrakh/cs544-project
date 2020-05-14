@@ -21,9 +21,10 @@ public class LocationServiceImpl implements LocationService {
 	@Autowired
 	protected LocationResponseMapper responseMapper;
 
-	public void save(Location location) {
+	public LocationResponse save(Location location) {
 		
 		locationRepository.save(location);
+		return convertEntityToResponse(location);
 	}
 	
 	public List<LocationResponse> findAll(){
@@ -55,6 +56,10 @@ public class LocationServiceImpl implements LocationService {
     	}
     	oldLocation.setRoomNo(newlocation.getRoomNo());
     	oldLocation.setBuildNo(newlocation.getBuildNo());
+    	oldLocation.setCity(newlocation.getCity());
+    	oldLocation.setState(newlocation.getState());
+    	oldLocation.setStreet(newlocation.getStreet());
+    	oldLocation.setZipcode(newlocation.getZipcode());
     	locationRepository.save(oldLocation);
     	return convertEntityToResponse(oldLocation);
 	}

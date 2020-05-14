@@ -16,8 +16,8 @@ public class LocationController extends ProjectDefaultController{
     private LocationService locationService;
 
     @PostMapping()
-    public void createLocation(@RequestBody Location location) {
-    	locationService.save(location);
+    public LocationResponse createLocation(@RequestBody Location location) {
+    	return locationService.save(location);
     }
     
     @GetMapping()

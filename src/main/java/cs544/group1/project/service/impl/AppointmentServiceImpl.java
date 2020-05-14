@@ -1,14 +1,12 @@
 package cs544.group1.project.service.impl;
 
 import cs544.group1.project.domain.Appointment;
-import cs544.group1.project.domain.Location;
-import cs544.group1.project.domain.User;
 import cs544.group1.project.dto.AppointmentRequest;
 import cs544.group1.project.dto.AppointmentResponse;
-import cs544.group1.project.dto.UserDTO;
 import cs544.group1.project.repo.AppointmentRepo;
 import cs544.group1.project.service.AppointmentService;
 import cs544.group1.project.service.UserService;
+import cs544.group1.project.service.mappers.AppointmentRequestMapper;
 import cs544.group1.project.service.mappers.AppointmentResponseMapper;
 import cs544.group1.project.util.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,17 +34,22 @@ public class AppointmentServiceImpl implements AppointmentService {
 
 	@Autowired
 	protected AppointmentResponseMapper responseMapper;
-	
-	public void save(AppointmentRequest appointmentRequest) {
 
-		UserDTO userDTO = userService.findById(appointmentRequest.getUserId());
-		User user = objectMapper.getUserEntityFromDTO(userDTO);
-		Appointment appointment = new Appointment();
-		appointment.setAppointmentDate(appointmentRequest.getAppointmentDate());
-		appointment.setUser(user);
-		Location location = locationService.findById(appointmentRequest.getLocationId());
-		appointment.setLocation(location);
+	@Autowired
+	protected AppointmentRequestMapper appointmentRequestMapper;
+	
+	public AppointmentResponse save(AppointmentRequest appointmentRequest) {
+
+//		UserDTO userDTO = userService.findById(appointmentRequest.getUserId());
+//		User user = objectMapper.getUserEntityFromDTO(userDTO);
+//		Appointment appointment = new Appointment();
+//		appointment.setAppointmentDate(appointmentRequest.getAppointmentDate());
+//		appointment.setUser(user);
+//		Location location = locationService.findById(appointmentRequest.getLocationId());
+//		appointment.setLocation(location);
+		Appointment appointment = appointmentRequestMapper.appointmentBuilder(appointmentRequest);
 		apointmentRepository.save(appointment);
+		return convertEntityToResponse(appointment);
 	}
 	
 	public List<AppointmentResponse> findAll(){
