@@ -38,7 +38,7 @@ public class User {
         this.role = role;
     }
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     List<UserRole> role;
     
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
