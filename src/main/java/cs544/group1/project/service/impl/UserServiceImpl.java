@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -89,9 +90,8 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional(readOnly = true)
 	public List<UserDTO> findAll() {
-		List<User> users = userRepository.findAll();
-		List<UserDTO> collect = convertEntityListToResponse(users);
-		return collect;
+		List<User> users = userRepository.findWithRoles();
+		return users.stream().map(objectMapper::getUserDTOFromEntity).collect(Collectors.toList());
 	}
 
 	@Transactional(readOnly = true)
@@ -143,6 +143,15 @@ public class UserServiceImpl implements UserService {
 		if(userDTO.getPassword() != null && userDTO.getPassword().length() > 0)
 		{
 			oldUser.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		}
+		if(userDTO.getRoles() != null && userDTO.getRoles().length > 0)
+		{
+			List<UserRole> roles = Arrays.stream(userDTO.getRoles()).map(role -> {
+				UserRole rle = new UserRole();
+				rle.setUserRoles(role);
+				return rle;
+			}).collect(Collectors.toList());
+			oldUser.setRole(roles);
 		}
 		UserDTO rslt = objectMapper.getUserDTOFromEntity(userRepository.save(oldUser));
 		rslt.setPassword(null);
