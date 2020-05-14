@@ -13,11 +13,14 @@ import cs544.group1.project.service.ReservationService;
 import cs544.group1.project.service.UserService;
 import cs544.group1.project.service.mappers.ReservationResponseMapper;
 import cs544.group1.project.util.CustomObjectMapper;
+
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.lang.reflect.InvocationTargetException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -99,9 +102,33 @@ public class ReservationServiceImpl implements ReservationService {
 //    	oldReservation.setReservationDate(newReservation.getReservationDate());
     	reservationRepository.save(oldReservation);
     	
+    	
+    	
     	if(oldReservation.getStatus().equals(ReservationStatus.ACCEPTED)) {
     		String toEmail = oldReservation.getConsumer().getEmail();
     		emailService.sendMail(toEmail, "TM Checker System", "Your reservation got ACCEPTED");
+    		
+			List<Reservation> res_list = reservationRepository.getAllReservationsByAppointmentId(oldReservation.getAppointment().getId());
+    		
+			System.out.println(res_list);
+    		
+    		
+			for(Reservation reservation : res_list) {
+    			System.out.println(reservation.getId());
+    			System.out.println(oldReservation.getId());
+    			
+    			
+    			if(reservation.getId() == oldReservation.getId()) {
+    				continue;
+    			}
+//    			try {
+//					BeanUtils.copyProperties(reservation, reservationResp);
+//				} catch (InvocationTargetException | IllegalAccessException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+    			reservation.setStatus(ReservationStatus.DECLINED);
+    		}
     	}
     	if(oldReservation.getStatus().equals(ReservationStatus.DECLINED)) {
     		String toEmail = oldReservation.getConsumer().getEmail();
