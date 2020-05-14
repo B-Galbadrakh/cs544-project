@@ -18,11 +18,13 @@ steps:
   inputs:
     versionSelector: latestStable
 
-- task: VSTest@2
-  displayName: 'Test run for Test plans'
+- task: Maven@3
   inputs:
-    testAssemblyVer2: |
-     **/*....dll
-     !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)/Tests'
-  continueOnError: true
+    mavenPomFile: 'pom.xml'
+    mavenOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: '1.8'
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: true
+    testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    goals: 'package'
