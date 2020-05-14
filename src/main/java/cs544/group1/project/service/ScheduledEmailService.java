@@ -35,17 +35,15 @@ public class ScheduledEmailService {
 		
 		for(User user : users) {
 			String email = user.getEmail();
-			send(email);
+//			send(email);
 		}
 	}
 	
 	private void send(String toEmail) {
-		String from = "tmcheckersystem@gmail.com";
-		String to = toEmail;
 		String message = "You have a appointment in next 24 hours";
 		String subject = "TM Checking appointment";
 		
-		emailService.sendMail(from, to, subject, message);
+		emailService.sendMail(toEmail, subject, message);
 		System.out.println("Email has sent");
 		
 	}

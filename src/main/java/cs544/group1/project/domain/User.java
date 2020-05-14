@@ -41,10 +41,10 @@ public class User {
     @ManyToMany(cascade = CascadeType.PERSIST)
     List<UserRole> role;
     
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Appointment> appointments;
     
-    @OneToMany(mappedBy = "consumer")
+    @OneToMany(mappedBy = "consumer", cascade = CascadeType.REMOVE)
     private List<Reservation> reservations;
     
     
