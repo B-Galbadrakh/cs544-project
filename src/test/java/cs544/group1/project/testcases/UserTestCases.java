@@ -28,10 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.isA;
-import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class UserTestCases {
@@ -98,7 +96,7 @@ public class UserTestCases {
     @Test
     public void testUserCreationSuccess() throws CustomError {
         UserDTO userDTO = getNewUserDTO();
-        User user = userService.save(userDTO);
+        UserDTO user = userService.save(userDTO);
         assertNotNull(user);
     }
 
