@@ -36,10 +36,10 @@ public class EmailController {
 	public String mailSender() {
 	   
 		System.out.println("function");
-		emailService.sendMail("tmcheckersystem@gmail.com", "b.galbadrah12@gmail.com", "Test Subject", "Test mail");
+		emailService.sendMail("b.galbadrah12@gmail.com", "Test Subject", "Test mail");
 		System.out.println("Email sent");
 		try {
-			emailService.sendMail("tmcheckersystem@gmail.com", "b.galbadrah12@gmail.com", "Test Subject", "Test mail");
+			emailService.sendMail("b.galbadrah12@gmail.com", "Test Subject", "Test mail");
 		} catch (Exception e) {
 			e.printStackTrace();
 			return "Mail not send";
