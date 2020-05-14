@@ -30,10 +30,10 @@ public class Appointment {
 	@JoinColumn(name="user_id")
 	private User user;
 
-	@OneToMany(mappedBy="appointment")
+	@OneToMany(mappedBy="appointment", cascade = CascadeType.REMOVE)
 	private List<Reservation> reservations;
 
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="location_id")
 	private Location location;
 
