@@ -73,7 +73,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     	if(oldAppointment == null){
     		return null;
     	}
-    	oldAppointment.setAppointmentDate(newAppointment.getAppointmentDate());
+    	oldAppointment.setDate(newAppointment.getDate());
     	oldAppointment.setUpdatedDate(new Date());
     	apointmentRepository.save(oldAppointment);
     	return convertEntityToResponse(oldAppointment);

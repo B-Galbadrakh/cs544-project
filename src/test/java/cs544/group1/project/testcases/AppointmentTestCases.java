@@ -19,7 +19,7 @@ public class AppointmentTestCases {
 
     AppointmentRequest getAppointmentRequestDTO(){
         AppointmentRequest appointmentRequest = new AppointmentRequest();
-        appointmentRequest.setAppointmentDate(new Date());
+        appointmentRequest.setDate(new Date());
         appointmentRequest.setLocationId(1);
         appointmentRequest.setUserId(1);
         return appointmentRequest;

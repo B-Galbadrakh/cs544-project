@@ -4,16 +4,16 @@ import java.util.Date;
 
 public class AppointmentRequest {
 
-    private Date appointmentDate;
+    private Date date;
     private int userId;
     private int locationId;
 
-    public Date getAppointmentDate() {
-        return appointmentDate;
+    public Date getDate() {
+        return date;
     }
 
-    public void setAppointmentDate(Date appointmentDate) {
-        this.appointmentDate = appointmentDate;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public int getUserId() {

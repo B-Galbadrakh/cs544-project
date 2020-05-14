@@ -7,7 +7,7 @@ public class AppointmentResponse implements Serializable {
 	
 	private int id;
 	
-	private Date appointmentDate;
+	private Date date;
 	
     private Date createdDate;
     
@@ -25,12 +25,12 @@ public class AppointmentResponse implements Serializable {
 		this.id = id;
 	}
 
-	public Date getAppointmentDate() {
-		return appointmentDate;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setAppointmentDate(Date appointmentDate) {
-		this.appointmentDate = appointmentDate;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 
 	public Date getCreatedDate() {
