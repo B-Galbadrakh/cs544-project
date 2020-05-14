@@ -45,6 +45,7 @@ public class CustomObjectMapper {
                 UserRoles[] roles = usr.getRole().stream().map(role -> role.getUserRoles()).collect(Collectors.toList()).toArray(new UserRoles[usr.getRole().size()]);
                 result.setRoles(roles);
             }
+            result.setPassword(null);
             return result;
         }
         catch(Exception exc)

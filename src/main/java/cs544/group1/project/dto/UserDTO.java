@@ -1,5 +1,6 @@
 package cs544.group1.project.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import cs544.group1.project.domain.UserRoles;
 
 import javax.validation.constraints.Email;
@@ -7,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserDTO implements Serializable {
     private int id;
     @NotBlank(message = "Email is mandatory")
