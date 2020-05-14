@@ -2,12 +2,15 @@ package cs544.group1.project.dto;
 
 import cs544.group1.project.domain.ReservationStatus;
 
+import javax.validation.constraints.NotBlank;
+
 public class ReservationRequest {
 
+	@NotBlank(message = "status is mandatory")
     private ReservationStatus status;
-
+	@NotBlank(message = "consumer_id is mandatory")
     private int consumer_id;
-
+	@NotBlank(message = "appointmentId is mandatory")
     private int appointment_id;
 
 	public ReservationStatus getStatus() {
