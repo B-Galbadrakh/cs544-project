@@ -11,6 +11,8 @@ import cs544.group1.project.service.mappers.AppointmentResponseMapper;
 import cs544.group1.project.util.CustomObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class AppointmentServiceImpl implements AppointmentService {
 	
 	@Autowired
@@ -40,23 +43,16 @@ public class AppointmentServiceImpl implements AppointmentService {
 	
 	public AppointmentResponse save(AppointmentRequest appointmentRequest) {
 
-//		UserDTO userDTO = userService.findById(appointmentRequest.getUserId());
-//		User user = objectMapper.getUserEntityFromDTO(userDTO);
-//		Appointment appointment = new Appointment();
-//		appointment.setAppointmentDate(appointmentRequest.getAppointmentDate());
-//		appointment.setUser(user);
-//		Location location = locationService.findById(appointmentRequest.getLocationId());
-//		appointment.setLocation(location);
 		Appointment appointment = appointmentRequestMapper.appointmentBuilder(appointmentRequest);
 		apointmentRepository.save(appointment);
 		return convertEntityToResponse(appointment);
 	}
-	
+	@Transactional(readOnly = true)
 	public List<AppointmentResponse> findAll(){
 		List<Appointment> appointments = apointmentRepository.findAll();
 		return convertEntityListToResponsePage(appointments);
 	}
-	
+	@Transactional(readOnly = true)
 	public AppointmentResponse findAppointmentResponseById(int appointmentid) {
 		Optional<Appointment> appointment = apointmentRepository.findById(appointmentid);
 		if(appointment.isPresent()) {
@@ -66,7 +62,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 			return null;
 		}
 	}
-	
+	@Transactional(readOnly = true)
 	public Appointment findById(int Appointmentid) {
 		Optional<Appointment> Appointment = apointmentRepository.findById(Appointmentid);
 		return Appointment.isPresent() ? Appointment.get(): null; 
@@ -92,6 +88,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public List<AppointmentResponse> convertEntityListToResponsePage(List<Appointment> appointmentList) {
 		if(null == appointmentList){
 			return null;
@@ -104,6 +101,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 	}
 
 	@Override
+	@Transactional(propagation=Propagation.SUPPORTS)
 	public AppointmentResponse convertEntityToResponse(Appointment appointment) {
 		return responseMapper.map(appointment);
 	}

@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Transactional(readOnly = true)
 	public User getCurrentLoggedInUser()
 	{
 		String email = ((UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
@@ -87,11 +88,13 @@ public class UserServiceImpl implements UserService {
 		return userDTO;
 	}
 
+	@Transactional(readOnly = true)
 	public List<UserDTO> findAll() {
 		List<User> users = userRepository.findWithRoles();
 		return users.stream().map(objectMapper::getUserDTOFromEntity).collect(Collectors.toList());
 	}
 
+	@Transactional(readOnly = true)
 	public UserDTO findById(int userid) {
 		Optional<User> user = userRepository.findById(userid);
 		return user.map(objectMapper::getUserDTOFromEntity).get();
