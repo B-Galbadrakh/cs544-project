@@ -1,11 +1,16 @@
 package cs544.group1.project.dto;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 public class AppointmentRequest {
 
+    @NotBlank(message = "appointmentDate is mandatory")
     private Date date;
+  
+    @NotBlank(message = "userId is mandatory")
     private int userId;
+    @NotBlank(message = "locationId is mandatory")
     private int locationId;
 
     public Date getDate() {
